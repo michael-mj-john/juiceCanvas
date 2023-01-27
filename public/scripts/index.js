@@ -29,16 +29,12 @@ var juiceteroids = function (p) {
 		let canvasPadding = parseFloat(canvasStyle.paddingLeft) + parseFloat(canvasStyle.paddingRight);
 		let canvasBorder = parseFloat(canvasStyle.borderLeftWidth) + parseFloat(canvasStyle.borderRightWidth);
 
-/* borrowed from sam, should test
-		//Set canvas to browser size
-		gameSession.canvasWidth = window.innerWidth;
-		gameSession.canvasHeight = window.innerHeight;
+		gameSession.canvasWidth = canvasWidth - canvasPadding - canvasBorder;
+		gameSession.canvasHeight = (p.windowHeight) * 0.8; //MAGIC NUMBER: vertical ratio the canvas should be to the header/footer.
 
-		//instantiate canvas and indicate parent div
-		var canvas = p.createCanvas(window.innerWidth, window.innerHeight);
+		var canvas = p.createCanvas(gameSession.canvasWidth, gameSession.canvasHeight * .98);
 		canvas.parent("canvas");
-*/
-
+		
 		//look for height of canvas div, make juice div same 
 		let juiceDiv = document.getElementById('juice-menu');
 		let canvasEl = document.getElementById('defaultCanvas0');
