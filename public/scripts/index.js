@@ -1,6 +1,5 @@
 import GameSession from "./core/GameSession.js";
 import GameState from "./game/states/GameState.js";
-import LoadingState from "./game/states/LoadingState.js";
 import ParticleSystem from "./core/Effects/ParticleEffects/ParticleSystem.js";
 import ExplosionSystem from "./core/Effects/ParticleEffects/ExplosionSystem.js";
 
@@ -52,12 +51,8 @@ var juiceteroids = function (p) {
 		let gameState = new GameState();
 		gameSession.addStateToGame(gameState);
 
-		//Library loading and camera initialization (TODO: Move to preload?)
-		let loadingState = new LoadingState();
-		gameSession.addStateToGame(loadingState);
-
-		//Set initial game state as loading, call setup method
-		gameSession.setCurrentState(loadingState);
+		//Set initial game state as game, call setup method
+		gameSession.setCurrentState(gameState);
 
 		//Time scale management
 		gameSession.timeManager.timeScale = 1;
@@ -76,18 +71,7 @@ var juiceteroids = function (p) {
 		gameSession.timeManager.update();
 		gameSession.currentState.update();
 
-		// All updates first
-		gameSession.bulletManager.update();
-		gameSession.asteroidManager.update();
-		gameSession.shipManager.ship.update();
-		gameSession.juiceEventManager.update();
-
-		//TODO: Move to individual classes and use an image
 		p.background(p.color(gameSession.backgroundColor)); 
-		gameSession.bulletManager.render();
-		gameSession.shipManager.ship.render();
-		gameSession.asteroidManager.render();
-		gameSession.particleManager.render();
 		gameSession.currentState.render();
 
 		if( gameSession.flashColor != 0 ) {

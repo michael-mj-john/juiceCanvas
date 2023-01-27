@@ -8,7 +8,7 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Juiceteroids app listening on port ${port}`)
+  console.log(`juiceCanvas app listening on port ${port}`)
 });
 
 app.use(express.static('public'));

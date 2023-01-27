@@ -27,10 +27,20 @@ export default class GameState extends State {
     render(){
         super.render();
 
+        this.gameSession.bulletManager.render();
+        this.gameSession.shipManager.ship.render();
+        this.gameSession.asteroidManager.render();
+        this.gameSession.particleManager.render();
+
     }
 
     update(){
         super.update();
+                // All updates first
+        this.gameSession.bulletManager.update();
+        this.gameSession.asteroidManager.update();
+        this.gameSession.shipManager.ship.update();
+        this.gameSession.juiceEventManager.update();
 
     }
 
