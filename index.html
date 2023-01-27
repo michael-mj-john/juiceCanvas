@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name='description' content='A "Juiced" version of Asteroids.'>
+    <meta name='author' content='TODO: AUTHORS'>
+
+    <!-- Mobile viewport -->
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <!-- Bootstrap is used for layout and non-game page elements -->
+    <link rel="stylesheet" type="text/css" href="/styles/bootstrap.min.css">
+
+    <!-- Font import from CDN -->
+    <link href="http://fonts.cdnfonts.com/css/hyperspace" rel="stylesheet">
+            
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="/styles/index.css">
+    
+  </head>
+  <body>
+
+    
+    <div class="juiceteroid_container">
+    <!-- Nav Bar -->
+    <nav>
+      <div class="nav nav-tabs nav-tabs-custom" id="nav-tab" role="tablist">
+        <button class="nav-link active" id="nav-canvas-tab" data-bs-toggle="tab" data-bs-target="#nav-canvas" type="button" role="tab" aria-controls="nav-canvas" aria-selected="true"><h1>JUICETEROIDS</h1></button>
+        <button class="nav-link" id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about" type="button" role="tab" aria-controls="nav-about" aria-selected="false"><h1>ABOUT</h1></button>
+        <button class="nav-link" id="nav-credits-tab" data-bs-toggle="tab" data-bs-target="#nav-credits" type="button" role="tab" aria-controls="nav-credits" aria-selected="false"><h1>CREDITS</h1></button>
+      </div>
+    </nav>
+    
+    <!-- Nav Bar Content-->
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="nav-canvas" role="tabpanel" aria-labelledby="nav-canvas">
+        
+        <!-- Game Canvas -->
+        <div class = "row">
+          <div class = "col-3 juice-controller" id = "juice-col">
+            <div id = "juice-menu">
+              <!--This form organizes our controls for our game.-->
+              <form>
+                <!--TODO: remove generic examples-->
+                <div class="juice-item">
+                  <label class="form-check-label" for="invincibility">
+                    Invincibility
+                  </label>
+                  <input class="form-check-input" type="checkbox" value="" id="invincibility">
+                </div>
+                <!--Collapsing Menu Example-->
+                <!--Create a Label for your subsection-->
+                <label class="form-check-label">
+                  <!--Add a link with data-bs-toggle and data-bs-target. data-bs-target is the #id of the div you want to collapse.-->
+                  <a aria-expanded="false" class="collapse-label" data-bs-toggle="collapse" data-bs-target="#hitParticleTypeContainer">Asteroid Hit Juice</a>
+                </label>
+
+                <!-- Group relevant items that need to collapse under a single Div. add collapse class and toggle. aria-expanded sets starting state.-->
+                <div class="juice-item collapse" data-bs-toggle="collapse" id="hitParticleTypeContainer" aria-expanded="false">
+                  
+                  <label for="asteroidHitParticleType" class="form-label">Particles</label>
+                  <select class="form-select" aria-label="asteroidHitParticleType" id="asteroidHitParticleType">
+                    <option value="none" selected>none</option>
+                    <option value="circle">circle</option>
+                    <option value="dot">dot</option>
+                    <option value="triangle">triangle</option>
+                    <option value="square">square</option>
+                    <option value="line">line</option>
+                  </select>
+
+                  <label for="asteroidHitParticlePattern" class="form-label">Particle Pattern</label>
+                  <select class="form-select" aria-label="asteroidHitParticlePattern" id="asteroidHitParticlePattern">
+                    <option value="random">random</option>
+                    <option value="radial" selected>radial</option>
+                  </select>
+                </div>
+
+                <div class="juice-item">
+                  <label for="asteroidHitParticleCount" class="form-label">Particle Count</label>
+                  <input type="range" class="form-range" min="1" max="100" id="asteroidHitParticleCount" value = 15>
+                </div>
+                <div class="juice-item">
+                  <label for="asteroidHitParticleLife" class="form-label">Particle Life Span</label>
+                  <input type="range" class="form-range" min="1" max="10" id="asteroidHitParticleLife" value=2>
+                </div>
+                <div class="juice-item">
+                  <label for="asteroidHitParticleVelocity" class="form-label">Particle Velocity</label>
+                  <input type="range" class="form-range" min="1" max="100" id="asteroidHitParticleVelocity" value=30>
+                </div>
+                <div class="juice-item">
+                  <label class="form-check-label" for="asteroidHitParticleVelocityRandom">
+                    Randomize Velocity
+                  </label>
+                  <input class="form-check-input" type="checkbox" id="asteroidHitParticleVelocityRandom">
+                </div>
+
+                <label class="form-check-label" for="deathShake">
+                  Player Death Juice
+                </label>
+                <div class="juice-item">
+                  <label for="deathShake" class="form-label">Shake Type</label>
+                  <select class="form-select" aria-label="deathShakeSelect" id="deathShakeSelect">
+                    <option value="none" selected>none</option>
+                    <option value="sine">sine wave</option>
+                    <option value="random">random</option>
+                    <option value="noise">perlin noise</option>
+                  </select>
+                </div>
+                <div class="juice-item">
+                  <label for="deathShakeIntensity" class="form-label">Shake Intensity</label>
+                  <input type="range" class="form-range" id="deathShakeIntensity">
+                </div>
+                <div class="juice-item">
+                  <label for="deathShakeDuration" class="form-label">Shake Duration</label>
+                  <input type="range" class="form-range" id="deathShakeDuration">
+                </div>
+                <div class="juice-item">
+                  <label class="form-check-label" for="bulletHitShake">
+                    bullet hit shake
+                  </label>
+                  <input class="form-check-input" type="checkbox" value="" id="bulletHitShake">
+                </div>
+                <div class="juice-item">
+                  <label for="bulletHitShake" class="form-label">Shake Type</label>
+                  <select class="form-select" aria-label="bulletHitShakeType" id="bulletHitShakeSelect">
+                    <option value="sine" selected>sine wave</option>
+                    <option value="random">random</option>
+                    <option value="noise">perlin noise</option>
+                  </select>
+                </div>
+                <div class="juice-item">
+                  <label for="bulletHitShakeIntensity" class="form-label">Shake Intensity</label>
+                  <input type="range" class="form-range" id="bulletHitShakeIntensity">
+                </div>
+
+                <label class="form-check-label">
+                  Bullet Hit Juice
+                </label>
+                <div class="juice-item">
+                  <label for="bulletHitFlashColor" class="form-label">Screen Flash</label>
+                  <select class="form-select" aria-label="bulletHitFlashColor" id="bulletHitFlashColor">
+                    <option value="none" selected>none</option>
+                    <option value="white">white</option>
+                    <option value="black">black</option>
+                    <option value="red">red</option>
+                  </select>
+                </div>
+                <div class="juice-item">
+                  <label for="bulletHitFlashFade" class="form-label">Fade Out</label>
+                  <input type="range" class="form-range" min="1" max="100" id="bulletHitFlashFade">
+                </div>
+
+
+
+              </form>
+
+            </div>
+          </div>
+          <div class = "col-9 canvas-col" id = "canvas-col">
+            <div id = "canvas"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about">
+
+        <!-- About -->
+        <div class = "row">
+          <div class = "col-12">"I don't mess with squares, now do that mean I'm out of shape?" -Lil Wayne</div>
+        </div>
+
+      </div>
+
+      <div class="tab-pane fade" id="nav-credits" role="tabpanel" aria-labelledby="nav-credits">
+
+        <!-- Game Credits -->
+        <div class = "row">
+          <div class = "col-12">The quick, brown fox jumped over the lazy dog...</div>
+        </div>
+
+      </div>
+    </div>
+    
+
+
+
+      <!-- Footer -->
+      <div class = "row">
+        <div class = "twelve columns">
+          <div><h3>UCSC Games and Playable Media</h3></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- JAVASCRIPT IMPORTS -->
+    <!-- Bootstrap for form and nav elements-->
+    <script type="text/javascript" src="/scripts/libs/bootstrap/bootstrap.bundle.min.js"></script>
+
+    <!-- Tone is used for audio synthesis -->
+    <script src="https://cdn.jsdelivr.net/npm/tone@14.7.77/build/Tone.js"></script>
+
+    <!-- P5 is used for rendering -->
+    <script type="module" src="/scripts/libs/p5/p5.js"></script>
+    
+    <!-- entry point of application -->
+    <script type="module" src="/scripts/index.js"></script>
+  </body>
+</html>
