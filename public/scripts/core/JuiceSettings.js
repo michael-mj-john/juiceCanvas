@@ -101,6 +101,9 @@ export default class JuiceSettings {
 	    	}
 	    };
 
+		console.log("default juice settings created");
+
+
 	}
 
 	// all juice features are based on "events". Generally the form will be string, string, boolean or number

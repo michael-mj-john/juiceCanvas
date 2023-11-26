@@ -1,15 +1,16 @@
 
+import InputManager from "./Managers/InputManager.js";
 import SoundManager from "./Managers/SoundManager.js";
 import TimeManager from "./Managers/TimeManager.js";
-import AsteroidManager from "../game/AsteroidManager.js";
+import ShipManager from "./Managers/ShipManager.js";
+import AsteroidManager from "./Managers/AsteroidManager.js";
 import ParticleManager from "./Managers/ParticleManager.js";
 import SpriteManager from "./Managers/SpriteManager.js";
 import JuiceManager from "./Managers/JuiceManager.js";
+import JuiceEventManager from "./Managers/JuiceEventManager.js";
+import BulletManager from "./Managers/BulletManager.js";
 import JuiceSettings from "./JuiceSettings.js";
 import ParticleSystemDefinitions from "./Effects/ParticleEffects/ParticleSystemDefinitions.js";
-import ShipManager from "./Managers/ShipManager.js";
-import JuiceEventManager from "./Managers/JuiceEventManager.js";
-import BulletManager from "../game/BulletManager.js";
 
 export default class GameSession{
 	
@@ -32,6 +33,12 @@ export default class GameSession{
 		this.__backgroundColor = 0;
 		this.__flashColor = 0;
 
+		//Debug verbose
+		this.__verbose = true;
+
+		//InputManager
+		this.__inputManager = new InputManager();
+
 		//SoundManager
 		this.__soundManager = new SoundManager();
 
@@ -41,26 +48,29 @@ export default class GameSession{
 		//Particle Manager
 		this.__particleManager = new ParticleManager();
 
+		//Ship Manager
+		this.__shipManager = new ShipManager();
+
 		//Asteroid Manager
 		this.__asteroidManager = new AsteroidManager();
 
 		//Bullet Manager
 		this.__bulletManager = new BulletManager();
 
-		//Sprite Manager
+		//Sprite Manager 
 		this.__spriteManager = new SpriteManager();
-
-		//Object to store all current juice settings
-		this.__juiceSettings = new JuiceSettings();
-
-		//Object stores particle system definitions
-		this.__particleSystemDefinitions = new ParticleSystemDefinitions();
 
 		//manages all juice effects through a single central object
 		this.__juiceEventManager = new JuiceEventManager();
 
-		//shipManager - so that ship can be accessed globally
-		this.__shipManager = new ShipManager();
+		//Object to store all current juice settings
+		this.__juiceSettings = new JuiceSettings();
+
+		
+		// likely to be deprecated:
+
+		//Object stores particle system definitions
+		this.__particleSystemDefinitions = new ParticleSystemDefinitions();
 
 		//All states available to game
 		this.__states = [];
@@ -71,8 +81,9 @@ export default class GameSession{
 		//JuiceManager - Instantiate Last (not sure if necessary, but for now)
 		this.__juiceManager = new JuiceManager();
 
-		//TODO: rest of the owl 
-		console.log("Session Created Successfully.");
+		if( this.verbose === true ) {
+			console.log("Session Created Successfully.");
+		}
 	}
 
 	//used to add states to game on game load or dynamically
@@ -118,7 +129,6 @@ export default class GameSession{
 		this.__currentState = currentState;
 	}
 
-
 	get instance(){
 		return this.__instance;
 	}
@@ -130,6 +140,7 @@ export default class GameSession{
 	get p5(){
 		return this.__p5;
 	}
+	
 	set p5(p5){
 		this.__p5 = p5;
 	}
@@ -155,6 +166,14 @@ export default class GameSession{
 
 	set flashColor( flashColor ) {
 		this.__flashColor = flashColor;
+	}
+
+	get inputManager() {
+		return this.__inputManager;
+	}
+
+	set inputManager(inputManager) {
+		this.__inputManager = inputManager;
 	}
 
 	get soundManager(){
@@ -191,6 +210,14 @@ export default class GameSession{
 
 	get asteroidManager() {
 		return this.__asteroidManager;
+	}
+
+	set shipManager(shipManager) {
+		this.__shipManager = shipManager;
+	}
+
+	get shipManager() {
+		return this.__shipManager;
 	}
 
 	set asteroidManager(asteroidManager) {
@@ -257,8 +284,13 @@ export default class GameSession{
 		this.__juiceManager = juiceManager;
 	}
 
-	get shipManager() {
-		return this.__shipManager;
+	get verbose() {
+		return this.__verbose;
+	}
+
+	// debug
+	PrintSomething(something) {
+		console.log(something);
 	}
 
 

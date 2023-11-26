@@ -65,6 +65,10 @@ export default class SoundManager extends Manager {
 
 		// Flag for determining if the thruster sound is already playing
 		this.__isThrusting = false;
+
+		if( this.gameSession.verbose === true) {
+			console.log("sound manager created successfully");
+		}
 	}
 
 	//TODO: Update method for disconnecting inactive sound objects?

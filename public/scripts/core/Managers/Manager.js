@@ -17,7 +17,9 @@ export default class Manager {
   constructor() {
 	// Get new GameSession reference in case there is none loaded yet
     this.__gameSession = new GameSession();
+    this.__p5 = this.gameSession.p5;
   }
+
   
   /* Getters */
   // GameSession getter
@@ -27,6 +29,7 @@ export default class Manager {
   
   // p5 getter
   get p5(){
-	   return this.gameSession.p5;
+    console.log("p5 getter");
+	   return this.__p5;
   }
 }

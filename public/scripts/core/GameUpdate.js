@@ -1,19 +1,15 @@
-import State from "../../core/State.js";
+import GameSession from "./GameSession.js";
 
-/** Example of Gamestate
+/** GameUpdate
  * 
- *  1. Renders a background
- *  2. Transition to game over
+ *  Handles all updates from the main game logic
  * 
- * Alt: Game over on empty charge pack for 5 seconds
  */
 
-export default class GameState extends State {
+export default class GameUpdate {
 
     constructor(){
-        super("Game");
-        //check 
-
+ 
         this.__shipThrusting = 0; 
         this.__shipRotating = 0; // potential values 0, 1, -1
 

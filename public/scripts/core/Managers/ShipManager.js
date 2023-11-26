@@ -27,6 +27,10 @@ export default class ShipManager extends Manager{
 
 		this.__ship = {};
 
+		if( this.gameSession.verbose === true ) {
+			console.log("ship manager created successfully");
+		}
+
 	}
 
 	createShip() {

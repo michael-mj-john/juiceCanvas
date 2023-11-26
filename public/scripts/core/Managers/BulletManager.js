@@ -2,11 +2,8 @@
 //Used to spawn and despawn bullets
 //Last modified 5/9/22 MJ
 
-import Manager from "../core/Managers/Manager.js";
-import GameSession from "../core/GameSession.js";
-import Bullet from "./Bullet.js";
-import ExplosionSystem from "../core/Effects/ParticleEffects/ExplosionSystem.js";
-
+import Manager from "./Manager.js";
+import Bullet from "../../game/Bullet.js";
 
 export default class bulletManager extends Manager {
 
@@ -18,6 +15,10 @@ export default class bulletManager extends Manager {
 		//Instance Variables
 		this.__bullets= new Array(); //holds bullets
 		this.__ammoLimit = 4;
+
+		if( this.gameSession.verbose === true ) {
+			console.log("bullet Manager created successfully");
+		}
 	}
 
 	//takes vector2 for position, rotation

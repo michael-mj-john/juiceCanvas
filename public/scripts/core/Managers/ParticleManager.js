@@ -20,7 +20,9 @@ export default class ParticleManager extends Manager {
 
         this.__particleSystems = [];
 
-        console.log("ParticleManager created successfully");
+        if( this.gameSession.verbose === true ) {
+            console.log("particle manager created successfully");
+        }
 
     }
 

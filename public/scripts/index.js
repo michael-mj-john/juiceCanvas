@@ -8,8 +8,9 @@ import ExplosionSystem from "./core/Effects/ParticleEffects/ExplosionSystem.js";
 
 /**TODOS:
 Fix resize windows
+*/
 
- */
+
 //Instantiate our Game Session - this will be our parent for all game data.
 let gameSession = new GameSession();
 
@@ -34,7 +35,7 @@ var juiceteroids = function (p) {
 
 		var canvas = p.createCanvas(gameSession.canvasWidth, gameSession.canvasHeight * .98);
 		canvas.parent("canvas");
-		
+
 		//look for height of canvas div, make juice div same 
 		let juiceDiv = document.getElementById('juice-menu');
 		let canvasEl = document.getElementById('defaultCanvas0');
@@ -75,13 +76,14 @@ var juiceteroids = function (p) {
 			p.rect(0,0, gameSession.canvasWidth, gameSession.canvasHeight);
 		}
 
-	//implement your controls inside of your specific state.
+	//TODO: implement your controls inside of your specific state.
 	p.mousePressed = function(){
 		//call gameState code here as needed.
 	}
 
     p.keyPressed = function(){
 		//call gameState code here as needed.
+		gameSession.currentState.keyPressed();
 	}
 
     p.keyReleased = function(){
@@ -93,7 +95,9 @@ var juiceteroids = function (p) {
 	}
 
     p.keyIsDown = function(){
-		//call gameState code here as needed.
+		if( p.keyIsDown === true ) {
+			gameSession.currentState.keyIsDown();
+		}
 	}
 
     p.mouseMoved = function(){
@@ -115,6 +119,8 @@ var juiceteroids = function (p) {
 	}
 
     p.mouseClicked = function(){
+		console.log("mouse clicked");
+
 		//call gameState code here as needed.
 	}
 

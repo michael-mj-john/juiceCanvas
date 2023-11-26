@@ -54,7 +54,9 @@ export default class TimeManager extends Manager {
         // Frame Count
         this.__frameCount = 0;
 
-        console.log("TimeManager created sucessfully");
+        if( this.gameSession.verbose === true ) {
+            console.log("time Manager created successfully");
+        }
     }
     
 	update() {

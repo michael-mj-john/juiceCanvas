@@ -55,7 +55,8 @@ export default class State {
     mousePressed(){
         console.log("mouse pressed");
     }
-
+    
+/*
     keyPressed(){
         console.log("input detected");
     }
@@ -107,6 +108,8 @@ export default class State {
     exitPointerLock(){
         console.log("input detected");
     }
+
+    */
 
     get name(){
         return this.__name;

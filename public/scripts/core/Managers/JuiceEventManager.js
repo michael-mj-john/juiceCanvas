@@ -30,7 +30,9 @@ export default class JuiceEventManager extends Manager {
         // certain effects. 
         this.__effectSemaphors = [];
 
-        console.log("Juice Event Manager Created Successfully");
+        if( this.gameSession.verbose === true ) {
+	        console.log("juice event Manager created successfully");
+	    }
 
 	}
 

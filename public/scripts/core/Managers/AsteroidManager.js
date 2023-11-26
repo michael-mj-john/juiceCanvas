@@ -3,13 +3,12 @@
 // Nothing inherits from this
 // Last modified by Eddie 5/7/22
 
-import Manager from "../core/Managers/Manager.js";
-import Asteroid from "./Asteroid.js";
+import Manager from "./Manager.js";
+import Asteroid from "../../game/Asteroid.js";
 
 
 export default class AsteroidManager extends Manager{
 
-	// TODO: make singleton
 	constructor() {
 		if(AsteroidManager.__instance){
 			return AsteroidManager.__instance;
@@ -31,6 +30,10 @@ export default class AsteroidManager extends Manager{
 
 		this.__resetTime = 0;
 		this.__resetDelay = 4000; // level reset delay in milliseconds
+
+		if( this.gameSession.verbose === true ) {
+			console.log("asteroid Manager created successfully");
+		}
 	}
 
 	levelStart() {

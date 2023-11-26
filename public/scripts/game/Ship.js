@@ -6,6 +6,7 @@
 // last modified 6/15/22 by MJ
 
 import GameSession from "../core/GameSession.js";
+import GameState from "../game/states/GameState.js";
 import VectorGameObject from "../core/VectorGameObject.js";
 import SpriteParticle from "../core/Effects/ParticleEffects/SpriteParticle.js"; // TODO: Remove after testing
 import ShipVectorParticle from "../core/Effects/ParticleEffects/VectorParticle.js";
@@ -68,20 +69,24 @@ export default class Ship extends VectorGameObject {
     // update() runs once per frame, called from index.js
     update() {
 
+        this.getInput();
+
         if(this.__shipAlive){
                 // set thrust to "false" as default
                 this.__thrust = false;
 
             // take keyboard input for rotation, then rotate accounting for timescale
-            if (this.p5.keyIsDown(this.p5.LEFT_ARROW)) {
-                this.rotation -= this.p5.PI * this.__rotationSpeed * this.gameSession.timeManager.deltaTime;
-            }
-            if (this.p5.keyIsDown(this.p5.RIGHT_ARROW)) {
-                this.rotation += this.p5.PI * this.__rotationSpeed * this.gameSession.timeManager.deltaTime;
-            }
             
-            // take keyboard input for thrust
+
+            // if (this.p5.keyIsDown(this.p5.LEFT_ARROW)) {
+            //     this.rotation -= this.p5.PI * this.__rotationSpeed * this.gameSession.timeManager.deltaTime;
+            // }
+            // if (this.p5.keyIsDown(this.p5.RIGHT_ARROW)) {
+            //     this.rotation += this.p5.PI * this.__rotationSpeed * this.gameSession.timeManager.deltaTime;
+            // }
+            
             if (this.p5.keyIsDown(this.p5.UP_ARROW)) {
+                console.log("thrust");
                 this.thrust = true;
                 // create an acceleration vector based on the ship's current rotation
 	  		    let accelerationVector = p5.Vector.fromAngle(this.rotation);
@@ -237,7 +242,23 @@ export default class Ship extends VectorGameObject {
         }
     }
 
+    // process input
+    getInput() {
+
+        if(this.p5.keyIsDown(this.p5.LEFT_ARROW)) {
+            console.log("left");
+            this.rotation -= this.p5.PI * this.__rotationSpeed * this.gameSession.timeManager.deltaTime;        
+        }
+        if(this.p5.keyIsDown(this.p5.RIGHT_ARROW)) {
+            this.rotation += this.p5.PI * this.__rotationSpeed * this.gameSession.timeManager.deltaTime;        
+        }
+    }    
+
     // getters & setters
+    get rotation() {
+        return this.__rotationSpeed;
+    }
+
     get position() {
         return this.__position;
     }
