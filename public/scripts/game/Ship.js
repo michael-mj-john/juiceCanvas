@@ -38,7 +38,7 @@ export default class Ship extends VectorGameObject {
         // TODO: These should be abstracted into constants file. These are some crazy looking magic numbers
         this.__rotationSpeed = 0.000627510040161;
         this.__thrustAmount = .01/60;  // .01 per frame converted into seconds 
-        this.__speedClamp = 6;
+        this.__speedClamp = 0.4;
 
         this.__shipAlive = false;
         this.__deadTime = 4000;
@@ -69,7 +69,7 @@ export default class Ship extends VectorGameObject {
     // update() runs once per frame, called from index.js
     update() {
 
-        this.getInput();
+        this.rotateShip();
 
         if(this.__shipAlive){
                 // set thrust to "false" as default
@@ -85,8 +85,7 @@ export default class Ship extends VectorGameObject {
             //     this.rotation += this.p5.PI * this.__rotationSpeed * this.gameSession.timeManager.deltaTime;
             // }
             
-            if (this.p5.keyIsDown(this.p5.UP_ARROW)) {
-                console.log("thrust");
+            if (this.gameSession.inputManager.inputObject.forward === true ) {
                 this.thrust = true;
                 // create an acceleration vector based on the ship's current rotation
 	  		    let accelerationVector = p5.Vector.fromAngle(this.rotation);
@@ -130,6 +129,8 @@ export default class Ship extends VectorGameObject {
                 this.spawnShip();
             }
         }
+
+        console.log(this.velocity.mag());
 
     }
 
@@ -243,15 +244,18 @@ export default class Ship extends VectorGameObject {
     }
 
     // process input
-    getInput() {
+    rotateShip() {
 
-        if(this.p5.keyIsDown(this.p5.LEFT_ARROW)) {
-            console.log("left");
+        if(this.gameSession.inputManager.inputObject.left === true ) {
             this.rotation -= this.p5.PI * this.__rotationSpeed * this.gameSession.timeManager.deltaTime;        
         }
-        if(this.p5.keyIsDown(this.p5.RIGHT_ARROW)) {
+        if(this.gameSession.inputManager.inputObject.right === true ) {
             this.rotation += this.p5.PI * this.__rotationSpeed * this.gameSession.timeManager.deltaTime;        
         }
+    }
+
+    fireBullet() {
+        this.gameSession.bulletManager.fireBullet(this.position, this.rotation);
     }    
 
     // getters & setters

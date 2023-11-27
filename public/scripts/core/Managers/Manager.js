@@ -29,7 +29,6 @@ export default class Manager {
   
   // p5 getter
   get p5(){
-    console.log("p5 getter");
 	   return this.__p5;
   }
 }

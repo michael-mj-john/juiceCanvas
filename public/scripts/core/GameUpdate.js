@@ -3,35 +3,28 @@ import GameSession from "./GameSession.js";
 /** GameUpdate
  * 
  *  Handles all updates from the main game logic
+ *  Includes 
  * 
  */
 
 export default class GameUpdate {
 
     constructor(){
- 
-        this.__shipThrusting = 0; 
-        this.__shipRotating = 0; // potential values 0, 1, -1
 
-    }
+        //singleton
+        if(GameUpdate.__instance){
+            return GameUpdate.__instance;
+        }
+        GameUpdate.__instance = this;
+        this.__instance = this;
 
-    setup(){
-        super.setup();  
-
-    }
-
-    render(){
-        super.render();
-
-        this.gameSession.bulletManager.render();
-        this.gameSession.shipManager.ship.render();
-        this.gameSession.asteroidManager.render();
-        this.gameSession.particleManager.render();
+        //link to gameSession
+        this.__gameSession = new GameSession();
+        this.__p5 = this.__gameSession.p5;
 
     }
 
     update(){
-        super.update();
         
         // All updates first
         this.gameSession.inputManager.update();
@@ -42,24 +35,39 @@ export default class GameUpdate {
 
     }
 
+    render(){
+
+        this.gameSession.bulletManager.render();
+        this.gameSession.shipManager.ship.render();
+        this.gameSession.asteroidManager.render();
+        this.gameSession.particleManager.render();
+
+    }
+
     keyIsDown(){
-        console.log("input detected");
     }
 
     keyPressed() {
-        console.log("key in gamestate");
     }
 
-    cleanup(){
-        super.update();
+
+    get instance(){
+        return this.__instance;
     }
 
-    get gameBackground(){
-        return this.__gameBackground;
+    set instance(instance){
+        this.__instance = instance;
     }
 
-    get shipThrusting() {
-        return this.__shipThrusting;
+
+    get gameSession(){
+        return this.__gameSession;
     }
+
+    set instance(gameSession){
+        this.__gameSession = gameSession;
+    }
+
+ 
 
 }

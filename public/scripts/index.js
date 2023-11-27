@@ -1,4 +1,5 @@
 import GameSession from "./core/GameSession.js";
+import gameUpdate from "./core/GameUpdate.js";
 import GameState from "./game/states/GameState.js";
 import ParticleSystem from "./core/Effects/ParticleEffects/ParticleSystem.js";
 import ExplosionSystem from "./core/Effects/ParticleEffects/ExplosionSystem.js";
@@ -44,13 +45,6 @@ var juiceteroids = function (p) {
 		//save canvas reference to gameSession
 		gameSession.canvas = canvas;
 
-		//Instantiate all relevant game states and add them to the session.
-		let gameState = new GameState();
-		gameSession.addStateToGame(gameState);
-
-		//Set initial game state as game, call setup method
-		gameSession.setCurrentState(gameState);
-
 		//Time scale management
 		gameSession.timeManager.timeScale = 1;
 		gameSession.timeManager.frameRate = 60;
@@ -66,79 +60,23 @@ var juiceteroids = function (p) {
 
 		//Call managers and states to update each frame. 
 		gameSession.timeManager.update();
-		gameSession.currentState.update();
+		gameSession.gameUpdate.update();
 
 		p.background(p.color(gameSession.backgroundColor)); 
-		gameSession.currentState.render();
+		gameSession.gameUpdate.render();
 
 		if( gameSession.flashColor != 0 ) {
 			p.fill(gameSession.flashColor);
 			p.rect(0,0, gameSession.canvasWidth, gameSession.canvasHeight);
 		}
 
-	//TODO: implement your controls inside of your specific state.
-	p.mousePressed = function(){
-		//call gameState code here as needed.
-	}
-
-    p.keyPressed = function(){
-		//call gameState code here as needed.
-		gameSession.currentState.keyPressed();
-	}
-
-    p.keyReleased = function(){
-		//call gameState code here as needed.
-	}
-
-    p.keyTyped = function(){
-		//call gameState code here as needed.
-	}
-
-    p.keyIsDown = function(){
-		if( p.keyIsDown === true ) {
-			gameSession.currentState.keyIsDown();
+		
+		// keyPressed must be captured here due to p5 architecture
+		p.keyPressed = function() {
+			gameSession.inputManager.keyInput(p.key);
 		}
-	}
 
-    p.mouseMoved = function(){
-		//call gameState code here as needed.
-	}
 
-    p.mouseDragged = function(){
-		//call gameState code here as needed.
-	}
-
-    p.mousePressed = function(){
-		//call gameState code here as needed.
-	}
-
-    p.mouseReleased = function(){
-		if(gameSession.currentState.mouseReleased){
-			gameSession.currentState.mouseReleased();
-		}
-	}
-
-    p.mouseClicked = function(){
-		console.log("mouse clicked");
-
-		//call gameState code here as needed.
-	}
-
-    p.doubleClicked = function(){
-		//call gameState code here as needed.
-	}
-
-    p.mouseWheel = function(){
-		//call gameState code here as needed.
-	}
-
-    p.requestPointerLock = function(){
-		//call gameState code here as needed.
-	}
-
-    p.exitPointerLock = function(){
-		//call gameState code here as needed.
-	}
 
 		// *** CHEAT CODES/DEBUG FEATURES *** //
 

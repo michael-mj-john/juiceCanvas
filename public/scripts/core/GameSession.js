@@ -1,4 +1,5 @@
 
+import GameUpdate from "./GameUpdate.js"
 import InputManager from "./Managers/InputManager.js";
 import SoundManager from "./Managers/SoundManager.js";
 import TimeManager from "./Managers/TimeManager.js";
@@ -35,6 +36,9 @@ export default class GameSession{
 
 		//Debug verbose
 		this.__verbose = true;
+
+		//Game Update object
+		this.__gameUpdate = new GameUpdate();
 
 		//InputManager
 		this.__inputManager = new InputManager();
@@ -166,6 +170,18 @@ export default class GameSession{
 
 	set flashColor( flashColor ) {
 		this.__flashColor = flashColor;
+	}
+
+	get gameUpdate() {
+		return this.__gameUpdate;
+	}
+
+	set gameUpdate( gameUpdate ) {
+		this.__gameUpdate = gameUpdate;
+	}
+
+	set inputManager(inputManager) {
+		this.__inputManager = inputManager;
 	}
 
 	get inputManager() {

@@ -17,10 +17,10 @@ export default class InputManager extends Manager {
         if(InputManager.__instance = this) {
             this.__instance = {};
         }
-
         InputManager.__instance = this;
         this.__instance = {};
 
+        //currently unused
         this.__inputObject = {};
 
         if( this.gameSession.verbose === true ) {
@@ -29,11 +29,34 @@ export default class InputManager extends Manager {
 
     }
 
-
     update() {
-        if(this.gameSession.p5.keyIsDown(65) ) {
-            console.log("up");
+        
+        if(this.gameSession.p5.keyIsDown(37) || this.gameSession.p5.keyIsDown(65) ) {
+            this.inputObject.left = true;
         }
+        else {
+            this.inputObject.left = false;
+        }
+        if(this.gameSession.p5.keyIsDown(39) || this.gameSession.p5.keyIsDown(68) ) {
+            this.inputObject.right = true;           
+        }
+        else {
+            this.inputObject.right = false;
+        }
+        if(this.gameSession.p5.keyIsDown(38) || this.gameSession.p5.keyIsDown(87) ) {
+            this.inputObject.forward = true;            
+        }
+        else {
+            this.inputObject.forward = false;
+        }
+
+    }
+
+    keyInput( keyInputValue ) {
+        if(keyInputValue === " " || keyInputValue === "Shift" ) {
+             this.gameSession.shipManager.ship.fireBullet();
+        }
+
     }
 
 
@@ -52,6 +75,5 @@ export default class InputManager extends Manager {
     set instance(instance) {
         this.__instance = instance;
     }
-
 
 }
