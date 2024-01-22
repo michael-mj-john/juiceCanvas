@@ -34,6 +34,8 @@ export default class ScreenShakeEffector {
         this.__startTime = this.gameSession.timeManager.unscaledTime;
         this.__currentIntensity = this.__intensity;
 
+        this.__intensityMultiplier = 60;
+
     }
 
     finished(){
@@ -109,22 +111,23 @@ export default class ScreenShakeEffector {
     }
 
     // math formulas for screen shake. Way too many magic numbers in here.
+    // TODO: make it both positive and negative!
     sineShake() {
 
         // frequency is hard-coded here. That is bad.
-        return this.gameSession.p5.sin(this.gameSession.timeManager.time / 10) * this.currentIntensity * 10;
+        return this.gameSession.p5.sin(this.gameSession.timeManager.time / 10) * this.currentIntensity * this.intensityMultiplier;
     }
 
     randomShake () {
         
         // frequency is once per frame
-        return this.gameSession.p5.random(-this.intensity * 20, this.intensity * 20) * this.currentIntensity;
+        return this.gameSession.p5.random(-this.intensity * this.intensityMultiplier, this.intensity * this.intensityMultiplier) * this.currentIntensity;
     }
 
     noiseShake() {
         // use p5's built in function to return Perlin noise
         // uses time function to animate the noise
-        return this.gameSession.p5.noise(this.gameSession.timeManager.time) * this.currentIntensity * 20;
+        return this.gameSession.p5.noise(this.gameSession.timeManager.time) * this.currentIntensity * this.intensityMultiplier;
     }   
 
     get gameSession(){
@@ -137,6 +140,10 @@ export default class ScreenShakeEffector {
 
     get intensity() {
         return this.__intensity;
+    }
+
+    get intensityMultiplier() {
+        return this.__intensityMultiplier;
     }
 
     get duration(){

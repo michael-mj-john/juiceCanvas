@@ -129,9 +129,7 @@ export default class Ship extends VectorGameObject {
                 this.spawnShip();
             }
         }
-
-        console.log(this.velocity.mag());
-
+        
     }
 
     render() {

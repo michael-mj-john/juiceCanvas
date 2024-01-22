@@ -17,37 +17,32 @@ export default class JuiceManager extends Manager {
     constructor() {
         super();
 
-        //Collect Juice Menu HTML references and attach listeners        
-        
+        //Collect Juice Menu HTML references and attach listeners              
         this.__invincibilityToggle = document.getElementById("invincibility");
         this.invincibilityToggle.addEventListener("change", this.invincibilityToggleFunction);
         this.invincibilityToggle.gameSession = this.gameSession;       
-        
-        this.__deathShakeType = document.getElementById("deathShakeSelect");
-        this.deathShakeType.addEventListener("change", this.deathShakeTypeFunction);
-        this.deathShakeType.gameSession = this.gameSession;
-
-        this.__deathShakeIntensity = document.getElementById("deathShakeIntensity");
-        this.deathShakeIntensity.addEventListener("change", this.deathShakeIntensityFunction);
-        this.deathShakeIntensity.gameSession = this.gameSession;
-
-        this.__deathShakeDuration = document.getElementById("deathShakeDuration");
-        this.deathShakeDuration.addEventListener("change", this.deathShakeDurationFunction);
-        this.deathShakeDuration.gameSession = this.gameSession;
-
-/* temporarily removing to make room in the menu
-        this.__bulletHitShakeToggle = document.getElementById("bulletHitShake");
-        this.bulletHitShakeToggle.addEventListener("change", this.bulletHitShakeToggleFunction);
-        this.bulletHitShakeToggle.gameSession = this.gameSession;
         
         this.__bulletHitShakeType = document.getElementById("bulletHitShakeSelect");
         this.bulletHitShakeType.addEventListener("change", this.bulletHitShakeTypeFunction);
         this.bulletHitShakeType.gameSession = this.gameSession;
 
+        this.__bulletHitShakeToggleX = document.getElementById("bulletXAxis");
+        this.bulletHitShakeToggleX.addEventListener("change", this.bulletHitShakeToggleFunctionX);
+        this.bulletHitShakeToggleX.gameSession = this.gameSession;
+        
+
+        // TODO: broken for completely unknown reason
+        // this.__bulletHitShakeToggleY = document.getElementById("bulletYaxis");
+        // this.bulletHitShakeToggleY.addEventListener("change", this.bulletHitShakeToggleFunctionY);
+        // this.bulletHitShakeToggleY.gameSession = this.gameSession;
+
         this.__bulletHitShakeIntensity = document.getElementById("bulletHitShakeIntensity");
         this.bulletHitShakeIntensity.addEventListener("change", this.bulletHitShakeIntensityFunction);
         this.bulletHitShakeIntensity.gameSession = this.gameSession;
-*/
+
+        this.__bulletHitShakeDuration = document.getElementById("bulletHitShakeDuration");
+        this.bulletHitShakeDuration.addEventListener("change", this.bulletHitShakeDurationFunction);
+        this.bulletHitShakeDuration.gameSession = this.gameSession;
 
         this.__bulletHitFlashColor = document.getElementById("bulletHitFlashColor");
         this.bulletHitFlashColor.addEventListener("change", this.bulletHitFlashColorFunction);
@@ -78,6 +73,20 @@ export default class JuiceManager extends Manager {
         this.asteroidHitParticleVelocityRandom.addEventListener("change", this.asteroidHitParticleVelocityRandomFunction);
         this.asteroidHitParticleVelocityRandom.gameSession = this.gameSession;
 
+        this.__deathShakeType = document.getElementById("deathShakeSelect");
+        this.deathShakeType.addEventListener("change", this.deathShakeTypeFunction);
+        this.deathShakeType.gameSession = this.gameSession;
+
+        this.__deathShakeIntensity = document.getElementById("deathShakeIntensity");
+        this.deathShakeIntensity.addEventListener("change", this.deathShakeIntensityFunction);
+        this.deathShakeIntensity.gameSession = this.gameSession;
+
+        this.__deathShakeDuration = document.getElementById("deathShakeDuration");
+        this.deathShakeDuration.addEventListener("change", this.deathShakeDurationFunction);
+        this.deathShakeDuration.gameSession = this.gameSession;
+
+
+
     }
     
      invincibilityToggleFunction() {
@@ -85,6 +94,52 @@ export default class JuiceManager extends Manager {
         this.gameSession.juiceSettings.updateJuice("cheats","ship","invincibility",inputStatus);
      }
 
+     bulletHitShakeTypeFunction() {
+        let selected = this.value;
+        if( selected === "none" ) {
+            this.gameSession.juiceSettings.updateJuice("bulletHit","shake","active",false);
+        }
+        else {
+            this.gameSession.juiceSettings.updateJuice("bulletHit","shake","form",selected);
+        }
+     }
+
+    bulletHitShakeToggleFunctionX() {
+        let inputStatus = this.checked;
+        this.gameSession.juiceSettings.updateJuice("bulletHit","shake","xAxis",inputStatus);
+     }
+
+    bulletHitShakeToggleFunctionY() {
+        let inputStatus = this.checked;
+        this.gameSession.juiceSettings.updateJuice("bulletHit","shake","yAxis",inputStatus);
+     }
+
+     bulletHitShakeIntensityFunction() {
+        let range = this.value * .01;  // convert to a float between 0 and 1
+        this.gameSession.juiceSettings.updateJuice("bulletHit","shake","intensity",range);
+     }
+
+     bulletHitShakeDurationFunction() {
+        let range = this.value * .01;  // convert to a float between 0 and 1
+        this.gameSession.juiceSettings.updateJuice("bulletHit","shake","duration",range);
+     }
+     bulletHitFlashColorFunction() {
+        let selected = this.value;
+        if( selected === "none" ) {
+            this.gameSession.juiceSettings.updateJuice("bulletHit","colorFlash","active",false);
+        }
+        else {
+            this.gameSession.juiceSettings.updateJuice("bulletHit","colorFlash","active",true);
+            this.gameSession.juiceSettings.updateJuice("bulletHit","colorFlash","color",selected);
+        }
+     }
+
+    bulletHitFlashFadeFunction() {
+        // convert to float between 0 and 1 but add one first to avoid divide-by-zero risk
+        let range = (this.value + 1) * .001;
+        range = range * 4; // 4 seconds is maximum
+        this.gameSession.juiceSettings.updateJuice("bulletHit","colorFlash","duration",range);
+     }
      deathShakeTypeFunction() {
         let selected = this.value;
         if( selected === "none") {
@@ -106,44 +161,7 @@ export default class JuiceManager extends Manager {
      }
 
 
-     bulletHitShakeToggleFunction() {
-        let inputStatus = this.checked;
-        this.gameSession.juiceSettings.updateJuice("bulletHit","shake","active",inputStatus);
-     }
-
-     bulletHitShakeTypeFunction() {
-        let selected = this.value;
-        if( selected === "none" ) {
-            this.gameSession.juiceSettings.updateJuice("bulletHit","shake","active",false);
-        }
-        else {
-            this.gameSession.juiceSettings.updateJuice("bulletHit","shake","form",selected);
-        }
-     }
-
-     bulletHitShakeIntensityFunction() {
-        let range = this.value * .01;  // convert to a float between 0 and 1
-        this.gameSession.juiceSettings.updateJuice("bulletHit","shake","intensity",range);
-     }
-
-     bulletHitFlashColorFunction() {
-        let selected = this.value;
-        if( selected === "none" ) {
-            this.gameSession.juiceSettings.updateJuice("bulletHit","colorFlash","active",false);
-        }
-        else {
-            this.gameSession.juiceSettings.updateJuice("bulletHit","colorFlash","active",true);
-            this.gameSession.juiceSettings.updateJuice("bulletHit","colorFlash","color",selected);
-        }
-     }
-
-    bulletHitFlashFadeFunction() {
-        // convert to float between 0 and 1 but add one first to avoid divide-by-zero risk
-        let range = (this.value + 1) * .001;
-        range = range * 4; // 4 seconds is maximum
-        this.gameSession.juiceSettings.updateJuice("bulletHit","colorFlash","duration",range);
-     }
-
+    
      asteroidHitParticleTypeFunction() {
         let selected = this.value;
         if( selected === "none" ) {
@@ -222,6 +240,27 @@ export default class JuiceManager extends Manager {
     set invincibilityToggle(invincibilityToggle) {
         this.__invincibilityToggle = invincibilityToggle;
     }
+
+    get bulletHitShakeToggleX() {
+        return this.__bulletHitShakeToggleX;
+    }
+
+    set bulletHitShakeToggleX(bulletHitShakeToggleX) {
+        this.__bulletHitShakeToggleX = bulletHitShakeToggleX;
+    }
+
+    get bulletHitShakeToggleY() {
+        return this.__bulletHitShakeToggleY;
+    }
+
+    set bulletHitShakeToggleY(bulletHitShakeToggleY) {
+        this.__bulletHitShakeToggleY = bulletHitShakeToggleY;
+    }
+
+    get bulletHitShakeDuration() {
+        return this.__bulletHitShakeDuration;
+    }
+
 
     get deathShakeToggle() {
         return this.__deathShakeToggle;

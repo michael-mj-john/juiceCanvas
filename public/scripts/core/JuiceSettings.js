@@ -27,28 +27,11 @@ export default class JuiceSettings {
 	    			invincibility: true
 	    		}
 	    	},
-	    	destroyShip : {
-	    		shake : {
-	    			active : true,
-	    			xAxis : true,
-	    			yAxis : true,
-	    			rotation : false,
-	    			duration: 2, // nominal duration: 2 seconds
-	    			intensity : 0.5,
-	    			form : "noise"
-	    		},
-	    		timeSlow : {
-	    			active : false,
-	    			scale : 0.1,
-	    			duration : 3.5,
-	    			stackable : true
-	    		}
-	    	},
 	    	bulletHit : {
 	    		shake : {
-	    			active : true,
+	    			active : false,
 	    			xAxis: false,
-	    			yAxis : true,
+	    			yAxis : false,
 	    			rotation : false,
 	    			duration : 0.2, // nominal duration: 0.3 seconds
 	    			intensity : 2.5,
@@ -67,6 +50,23 @@ export default class JuiceSettings {
 	    			active : false,
 	    			scale : 0.25,
 	    			duration : 0.1,
+	    		}
+	    	},
+	    	destroyShip : {
+	    		shake : {
+	    			active : true,
+	    			xAxis : true,
+	    			yAxis : true,
+	    			rotation : false,
+	    			duration: 2, // nominal duration: 2 seconds
+	    			intensity : 0.5,
+	    			form : "noise"
+	    		},
+	    		timeSlow : {
+	    			active : false,
+	    			scale : 0.1,
+	    			duration : 3.5,
+	    			stackable : true
 	    		}
 	    	},
 	    	asteroidHit: {

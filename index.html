@@ -49,31 +49,7 @@
                   <label class="form-check-label" for="invincibility">
                     Invincibility
                   </label>
-                  <input class="form-check-input" type="checkbox" value="" id="invincibility">
-                </div>
-
-
-                <!-- BULLET HITS ASTEROID -------------------------------->
-
-                <label class="form-check-label">
-                  <!--Add a link with data-bs-toggle and data-bs-target. data-bs-target is the #id of the div you want to collapse.-->
-                  <a aria-expanded="false" class="collapse-label" data-bs-toggle="collapse" data-bs-target="#bulletHitEffects">Bullet Hit Juice</a>
-                </label>
-
-                <div class="juice-item collapse" data-bs-toggle="collapse" id="bulletHitEffects" aria-expanded="false">
-                  <div class="juice-item">
-                    <label for="bulletHitFlashColor" class="form-label">Screen Flash</label>
-                    <select class="form-select" aria-label="bulletHitFlashColor" id="bulletHitFlashColor">
-                      <option value="none" selected>none</option>
-                      <option value="white">white</option>
-                      <option value="black">black</option>
-                      <option value="red">red</option>
-                    </select>
-                  </div>
-                  <div class="juice-item">
-                    <label for="bulletHitFlashFade" class="form-label">Fade Out</label>
-                    <input type="range" class="form-range" min="1" max="100" id="bulletHitFlashFade">
-                  </div>
+                  <input class="form-check-input" type="checkbox" value="" id="invincibility" checked>
                 </div>
 
 
@@ -104,6 +80,64 @@
                     <option value="random">random</option>
                     <option value="radial" selected>radial</option>
                   </select>
+ 
+                    <label for="asteroidHitParticleCount" class="form-label">Particle Count</label>
+                    <input type="range" class="form-range" min="1" max="100" id="asteroidHitParticleCount" value = 15>
+
+                    <label for="asteroidHitParticleLife" class="form-label">Particle Life Span</label>
+                    <input type="range" class="form-range" min="1" max="10" id="asteroidHitParticleLife" value=2>
+                    <label for="asteroidHitParticleVelocity" class="form-label">Particle Velocity</label>
+                    <input type="range" class="form-range" min="1" max="100" id="asteroidHitParticleVelocity" value=30>
+                    <label class="form-check-label" for="asteroidHitParticleVelocityRandom">
+                      Randomize Velocity
+                    </label>
+                    <input class="form-check-input" type="checkbox" id="asteroidHitParticleVelocityRandom">
+                </div>
+
+
+                <!-- BULLET HITS ASTEROID -------------------------------->
+
+                <label class="form-check-label">
+                  <!--Add a link with data-bs-toggle and data-bs-target. data-bs-target is the #id of the div you want to collapse.-->
+                  <a aria-expanded="false" class="collapse-label" data-bs-toggle="collapse" data-bs-target="#bulletHitEffects">Bullet Hit Juice</a>
+                </label>
+
+                <div class="juice-item collapse" data-bs-toggle="collapse" id="bulletHitEffects" aria-expanded="false">
+                  <div class="juice-item">
+                    <select class="form-select" aria-label="bulletHitShakeSelect" id="bulletHitShakeSelect">
+                      <option value="sine">sine wave</option>
+                      <option value="random">random</option>
+                      <option value="noise">perlin noise</option>
+                    </select>
+                    <label for="bulletXAxis" class="form-label">X Axis</label>
+                    <input class="form-check-input" type="checkbox" value="" id="bulletXAxis"><br>
+                    <label for="bulletYAxis" class="form-label">Y Axis</label>
+                    <input class="form-check-input" type="checkbox" value="" id="bulletYAxis"><br>
+                  </div>
+
+                  <div class="juice-item">
+                    <label for="bulletHitShakeIntensity" class="form-label">Shake Intensity</label>
+                    <input type="range" class="form-range" min=1 max=100 id="bulletHitShakeIntensity">
+                  </div>
+
+                  <div class="juice-item">
+                    <label for="bulletHitShakeDuration" class="form-label">Shake Duration</label>
+                    <input type="range" class="form-range" min=1 max=100 id="bulletHitShakeDuration">
+                  </div>
+
+                  <div class="juice-item">
+                    <label for="bulletHitFlashColor" class="form-label">Screen Flash</label>
+                    <select class="form-select" aria-label="bulletHitFlashColor" id="bulletHitFlashColor">
+                      <option value="none" selected>none</option>
+                      <option value="white">white</option>
+                      <option value="black">black</option>
+                      <option value="red">red</option>
+                    </select>
+                  </div>
+                  <div class="juice-item">
+                    <label for="bulletHitFlashFade" class="form-label">Fade Out</label>
+                    <input type="range" class="form-range" min="1" max="100" id="bulletHitFlashFade">
+                  </div>
                 </div>
 
 
@@ -135,32 +169,15 @@
                   </div>
                 </div>
 
-                 <label class="form-check-label">
+
+                <!-- MISCELLANEOUS FX -------------------------->
+                <!-- CURRENTLY BROKEN -->
+                <br>
+                <label class="form-check-label">
                   <!--Add a link with data-bs-toggle and data-bs-target. data-bs-target is the #id of the div you want to collapse.-->
                   <a aria-expanded="false" class="collapse-label" data-bs-toggle="collapse" data-bs-target="#playerDeathEffects">Misc Effects</a>
                 </label>
 
-                <div class="juice-item collapse" data-bs-toggle="collapse" id="otherEffects" aria-expanded="false">
- 
-                  <div class="juice-item">
-                    <label for="asteroidHitParticleCount" class="form-label">Particle Count</label>
-                    <input type="range" class="form-range" min="1" max="100" id="asteroidHitParticleCount" value = 15>
-                  </div>
-                  <div class="juice-item">
-                    <label for="asteroidHitParticleLife" class="form-label">Particle Life Span</label>
-                    <input type="range" class="form-range" min="1" max="10" id="asteroidHitParticleLife" value=2>
-                  </div>
-                  <div class="juice-item">
-                    <label for="asteroidHitParticleVelocity" class="form-label">Particle Velocity</label>
-                    <input type="range" class="form-range" min="1" max="100" id="asteroidHitParticleVelocity" value=30>
-                  </div>
-                  <div class="juice-item">
-                    <label class="form-check-label" for="asteroidHitParticleVelocityRandom">
-                      Randomize Velocity
-                    </label>
-                    <input class="form-check-input" type="checkbox" id="asteroidHitParticleVelocityRandom">
-                  </div>
-                </div>
 
 
 
