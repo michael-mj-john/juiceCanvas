@@ -89,7 +89,7 @@ export default class AsteroidManager extends Manager{
 	// collide method is used by other entities to check collision with asteroids, e.g.
 	// bullets and player ship. collide() is *not* called from inside this class
 	collide( gameObject, destroyAsteroids ) {
-		// This way handles the edge case of collision detection with multiple asteroids at once
+		// This handles the edge case of collision detection with multiple asteroids at once
 		let collision = false;
 		
 		// since the array might be shortened, be sure to iterate it backwards
@@ -97,7 +97,8 @@ export default class AsteroidManager extends Manager{
 			if(this.asteroids[i].collide(gameObject)){
 				collision = true;
 				if(destroyAsteroids){
-					this.gameSession.juiceEventManager.addNew("asteroidHit", this.asteroids[i]);
+					// getting rid of this event which I think is redundant
+					// this.gameSession.juiceEventManager.addNew("asteroidHit", this.asteroids[i]);
 					if( this.asteroids[i].nextType != "none") {
 						this.spawnAsteroid(2, this.asteroids[i].nextType, this.asteroids[i].position.x, this.asteroids[i].position.y)
 					}

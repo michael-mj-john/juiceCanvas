@@ -19,8 +19,7 @@ export default class JuiceSettings {
 
 		this.__instance = {};
 
-	    // defaults. TODO: should be in JSON separate file eventually
-	    // I'd like to eliminate the "container" syntax if possible
+	    // defaults. These can be overridden from the HTML interface.
 	    this.__container = {
 	    	cheats : {
 	    		ship : {
@@ -29,7 +28,7 @@ export default class JuiceSettings {
 	    	},
 	    	bulletHit : {
 	    		shake : {
-	    			active : false,
+	    			active : true,
 	    			xAxis: false,
 	    			yAxis : false,
 	    			rotation : false,

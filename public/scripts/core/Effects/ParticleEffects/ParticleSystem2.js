@@ -8,10 +8,8 @@ Particle systems will eventually include multiple objects, also data-driven
 */
 
 
-
 import GameSession from "../../GameSession.js";
 import VectorParticleEffect from "./VectorParticleEffect.js";
-
 
 
 export default class ParticleSystem2 {

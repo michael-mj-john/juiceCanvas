@@ -1,8 +1,13 @@
 /* JuiceEvent Manager
-takes a juice event, uses factory pattern to instantiate the correct effect, 
-manages updates and juice buffers
+
+Handles both creation/[destruction] of juice effects, and update of the effects
+
+CREATION: takes a juice event by name, uses factory pattern to instantiate the correct effect, 
+
+UPDATE: enumerates 'effectors' array, removes "finished" events from array, and calls effectors' update and render methods
 
 Created 6/15/22 by MJ
+Updated: 2/24/24
 
 */
 
@@ -38,6 +43,7 @@ export default class JuiceEventManager extends Manager {
 
 	update() {
 
+	    // iterates backwards for removing element in-place when necessary
 	    for(let i = this.effectors.length - 1; i >=0; i-- ){
             if(this.effectors[i].finished()){
                 this.effectSemaphors[this.effectors[i].effectName] = false;
@@ -70,6 +76,7 @@ export default class JuiceEventManager extends Manager {
             		this.effectSemaphors[effectName] = true;
             	}
             }
+            console.log("DEBUG: " + eventName + " juice event added")
         }
         else {
             console.log("error: " + eventName + " event is not defined in juiceSettings");

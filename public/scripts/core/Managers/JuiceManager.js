@@ -32,8 +32,9 @@ export default class JuiceManager extends Manager {
         
 
         // TODO: broken for completely unknown reason
-        // this.__bulletHitShakeToggleY = document.getElementById("bulletYaxis");
-        // this.bulletHitShakeToggleY.addEventListener("change", this.bulletHitShakeToggleFunctionY);
+        this.__bulletHitShakeToggleY = document.getElementById("bulletYAxis");
+        this.__bulletHitShakeToggleY.addEventListener("change", this.bulletHitShakeToggleFunctionY);
+        console.log("DEBUG: listener on Y axis has triggered");
         // this.bulletHitShakeToggleY.gameSession = this.gameSession;
 
         this.__bulletHitShakeIntensity = document.getElementById("bulletHitShakeIntensity");
@@ -159,8 +160,6 @@ export default class JuiceManager extends Manager {
         let range = this.value * .01;  // convert to a float between 0 and 1
         this.gameSession.juiceSettings.updateJuice("destroyShip","shake","duration",range);
      }
-
-
     
      asteroidHitParticleTypeFunction() {
         let selected = this.value;
@@ -260,7 +259,6 @@ export default class JuiceManager extends Manager {
     get bulletHitShakeDuration() {
         return this.__bulletHitShakeDuration;
     }
-
 
     get deathShakeToggle() {
         return this.__deathShakeToggle;

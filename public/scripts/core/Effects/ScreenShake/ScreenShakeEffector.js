@@ -36,6 +36,13 @@ export default class ScreenShakeEffector {
 
         this.__intensityMultiplier = 60;
 
+
+
+        console.log("DEBUG: x axis boolean: " + this.__xAxis)
+        console.log("DEBUG: y axis boolean: " + this.__yAxis)
+
+
+
     }
 
     finished(){

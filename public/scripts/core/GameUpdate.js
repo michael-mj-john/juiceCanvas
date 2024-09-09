@@ -3,7 +3,6 @@ import GameSession from "./GameSession.js";
 /** GameUpdate
  * 
  *  Handles all updates from the main game logic
- *  Includes 
  * 
  */
 

@@ -69,7 +69,6 @@ var juiceteroids = function (p) {
 			p.fill(gameSession.flashColor);
 			p.rect(0,0, gameSession.canvasWidth, gameSession.canvasHeight);
 		}
-
 		
 		// keyPressed must be captured here due to p5 architecture
 		p.keyPressed = function() {
