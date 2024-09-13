@@ -9,7 +9,8 @@ import GameObject from "./GameObject.js";
 
 export default class EllipseGameObject extends GameObject {
 	
-	constructor(position, width, height, scale, color, alpha, fill ) {
+	//vector2, float, float, float, float, 8-bit int, bool)
+	constructor(position, width, height, rotation, scale, alpha, color, fill ) {
 
 		super(position.x, position.y, 5, 5, 0, 1, 255);
 
@@ -19,6 +20,7 @@ export default class EllipseGameObject extends GameObject {
 		this.strokeColor = this.p5.color(color);
 		this.fillColor = this.p5.color(color);
 		this.fill = fill;
+		this.alpha = alpha;
 
 	}
 
@@ -44,10 +46,10 @@ export default class EllipseGameObject extends GameObject {
 	    // Prevent scaling of the stroke weight when scaling the graphic
 	    this.p5.strokeWeight((1 / this.scale) * this.strokeWeight);
 	    // Set the stroke color
-	      this.p5.stroke([this.p5.red(this.strokeColor), this.p5.green(this.strokeColor), this.p5.blue(this.strokeColor), this.alpha]);
+	      this.p5.stroke(this.p5.red(this.strokeColor), this.p5.green(this.strokeColor), this.p5.blue(this.strokeColor), this.alpha);
 	    // Handle fill
 	    if(this.fill){
-	      this.p5.fill([this.p5.red(this.fillColor), this.p5.green(this.fillColor), this.p5.blue(this.fillColor), this.alpha]);
+	      this.p5.fill(this.p5.red(this.fillColor), this.p5.green(this.fillColor), this.p5.blue(this.fillColor), this.alpha );
 	    }
 	    else{
 	      this.p5.noFill();

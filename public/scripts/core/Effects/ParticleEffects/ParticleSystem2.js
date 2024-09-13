@@ -3,6 +3,11 @@ ParticleSystem2 (to be renamed later)
 
 Instantiates a particle system based on a game event's definition in JuiceSettings.js
 
+***FOR NOW a system can only have one particle definition (but multiple particles obv)***
+
+The hierarchy is:
+ Event -> System -> Effect -> Particle
+
 Particle systems will eventually include multiple objects, also data-driven
 
 */
@@ -21,17 +26,18 @@ export default class ParticleSystem2 {
 
         // these two fields are needed for updates in the juiceEventManager
         this.__effectName = "particles";
-        this.__active = this.__gameSession.juiceSettings.container[eventName].particles.active;
+        this.__active = this.__gameSession.juiceSettings.container[eventName].particles.active; // do we need this? shouldn't it just be 'true'?
 
-        this.particleEffects = new Array();
+        this.__particleEffects = new Array();
 
-		this.__definition = this.__gameSession.juiceSettings.particleSystems[eventName];
+		this.__definition = this.__gameSession.juiceSettings.particleSystems[eventName]; // this is an object that contains all the relevant parameters
 		this.__triggerObject = triggerObject;
 
-		this.initiateSystem(eventName);
+		this.__effectParameters = this.__gameSession.juiceSettings.particleSystems[eventName];
+
+		this.initiateSystem(eventName, triggerObject);
 
 	}
-
 
 	finished() {
 		if( this.particleEffects.length <= 0 ) { 
@@ -42,15 +48,14 @@ export default class ParticleSystem2 {
 		}
 	}
 
-	// this isn't right because it needs to manage delayed or repeated spawns
-	initiateSystem(eventName) {
+	// for the moment because a system can have only one effect, this is pretty redundant and simple
+	initiateSystem(eventName, triggerObject) {
+        console.log("we will make a", eventName);
 
-        for( let particleName in this.definition ) {
-        	let particleEffectObject = this.particleEffectFactory(particleName);
-        		this.particleEffects.push(particleEffectObject);
-        }
+       	let particleEffectObject = this.particleEffectFactory(eventName,triggerObject);
+   		this.particleEffects.push(particleEffectObject);
 
-	}
+  	}
 
 
 	update() {
@@ -73,19 +78,22 @@ export default class ParticleSystem2 {
 	}
 
 
-	particleEffectFactory(effectName) {
+	particleEffectFactory() {
 
-		// should be a real factory eventually. For now it's a hard coded object
+		// named as a factory to accommodate a future world of more than just vector particles. For now it's a bit of false advertising
 
-		return new VectorParticleEffect(this.definition,this.triggerObject);
+		console.log("here we go with the particles")
 
-
-		// add particle types here
 		// pass a single object to the effect, it returns an array of particles single particle
+		return new VectorParticleEffect(this.effectParameters, this.triggerObject);
 
 	}
 
 
+
+	get particleEffects() {
+		return this.__particleEffects;
+	}
 
 	get effectName () {
 		return "particles";
@@ -101,6 +109,10 @@ export default class ParticleSystem2 {
 
 	get triggerObject() {
 		return this.__triggerObject;
+	}
+
+	get effectParameters() {
+		return this.__effectParameters;
 	}
 
 

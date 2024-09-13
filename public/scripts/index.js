@@ -76,15 +76,8 @@ var juiceteroids = function (p) {
 		}
 
 
-
 		// *** CHEAT CODES/DEBUG FEATURES *** //
-
-		// cheat code to switch eyeballs on and off
-		if( p.key === 'g') {
-            let eyeBallFlag = gameSession.juiceSettings.container.eyeBallsOnAsteroids.eyeBalls.active;
-            eyeBallFlag = !eyeBallFlag;
-			gameSession.juiceSettings.updateJuice("eyeBallsOnAsteroids", "eyeBalls", "active", eyeBallFlag);
-		}
+		// ****** ALL OF THESE SHOULD BE MOVED TO INPUTMANAGER, THIS IS A BROKEN IMPLEMENTATION ******* //
 		
 		// Test time scale effects on sounds
 		if (p.key === 'i') {
@@ -93,7 +86,7 @@ var juiceteroids = function (p) {
 		if (p.key === 'o') {
 			gameSession.timeManager.timeScale = 1;
 		}
-		if (p.key === 'p') {
+		if (p.key === 'q') {
 			gameSession.timeManager.timeScale = 2;
 		}
 
@@ -132,11 +125,6 @@ var juiceteroids = function (p) {
 //Instantiate P5 and attach it to our gameSession instance
 gameSession.p5 = new p5(juiceteroids, 'canvas');
 gameSession.shipManager.createShip();
-  
-// create gameplay managers for asteroids and bullets. Eventually intend to move this into GameSession once all the reference issues are sorted out. 
-//var colorFlashManager = new ColorFlashManager();
-var oldJetSmokeParticleSystem = new ParticleSystem(null, null, null, 10);
-var explosionSystem = new ExplosionSystem("BulletExplosion", null, null, null, 20);
   
 gameSession.asteroidManager.levelStart();
 

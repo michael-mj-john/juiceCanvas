@@ -11,6 +11,14 @@ Updated: 2/24/24
 
 */
 
+/* NOTE: This obviates the need for MANAGERs for each type of effect. Each effect's system is fully managed by this manager, which
+uses a factory pattern to support a variety of different effects.
+
+Therefore for example, PARTICLEMANAGER is now obsolete
+
+*/
+
+
 import Manager from "./Manager.js";
 import ScreenShakeEffector from "../Effects/ScreenShake/ScreenShakeEffector.js";
 import ColorFlashEffector from "../Effects/ColorFlash/ColorFlashEffector.js";
@@ -69,7 +77,9 @@ export default class JuiceEventManager extends Manager {
 
         // ensure that this event exists
         if( eventName in this.gameSession.juiceSettings.container) {
+            // a given event may have more than one effect/system. Iterate through each
             for( let effectName in this.gameSession.juiceSettings.container[eventName] ) {
+            	// create an effect object and push it onto effectors[] array
             	if( this.gameSession.juiceSettings.container[eventName][effectName].active === true ) {
     	        	let effectObject = this.newEventFactory(eventName,effectName,triggerObject);
             		this.effectors.push(effectObject);

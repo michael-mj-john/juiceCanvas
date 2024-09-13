@@ -8,6 +8,7 @@
 */
 
 import Manager from "./Manager.js";
+import NullGameObject from "../NullGameObject.js";
 
 export default class InputManager extends Manager {
 
@@ -31,6 +32,7 @@ export default class InputManager extends Manager {
 
     update() {
         
+        // for held keypresses
         if(this.gameSession.p5.keyIsDown(37) || this.gameSession.p5.keyIsDown(65) ) {
             this.inputObject.left = true;
         }
@@ -49,14 +51,27 @@ export default class InputManager extends Manager {
         else {
             this.inputObject.forward = false;
         }
-
     }
 
+    // for one-shot keypresses
     keyInput( keyInputValue ) {
+        // fire bullet
         if(keyInputValue === " " || keyInputValue === "Shift" ) {
              this.gameSession.shipManager.ship.fireBullet();
         }
 
+        /**** CHEAT CODES AND DEBUG ****/
+        if(keyInputValue === "p" ) {
+            let nullObject = new NullGameObject(this.gameSession.p5.createVector(250,250));
+            this.gameSession.juiceEventManager.addNew("particleTest", nullObject);
+        }
+
+        // cheat code to switch eyeballs on and off (code is for a toggle)
+        if( keyInputValue === "g") {
+            let eyeBallFlag = this.gameSession.juiceSettings.container.eyeBallsOnAsteroids.eyeBalls.active;
+            eyeBallFlag = !eyeBallFlag;
+            this.gameSession.juiceSettings.updateJuice("eyeBallsOnAsteroids", "eyeBalls", "active", eyeBallFlag);
+        }
     }
 
 

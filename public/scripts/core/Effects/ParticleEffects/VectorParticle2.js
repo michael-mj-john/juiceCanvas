@@ -1,4 +1,5 @@
-// Particle.js for vector particles 
+// generator for vector particles
+// the actual array of particles is managed by VectorParticleEffect.js 
 // (we don't have a provision for bitmap particles)
 
 
@@ -45,6 +46,7 @@ export default class VectorParticle2 extends VectorGameObject {
 
     }
 
+    // returns true or false depending on whether the particle's lifetime has exceeded its defined duration
     finished() {
         return (this.__timeManager.time - this.__startTime) >= this.__duration;
     }

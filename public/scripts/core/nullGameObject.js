@@ -1,0 +1,27 @@
+
+
+/* nullGameObject.js
+
+Exists solely for debug purposes, but could be used to for example spawn particle effects without the need for a drawn object
+
+*/
+
+import GameObject from "./GameObject.js";
+
+
+export default class NullGameOjbect extends GameObject {
+	
+	constructor(position, width, height, rotation ) {
+
+		super(position.x, position.y, 0, 0, 0, 0, 255);
+
+	}
+
+	update( x, y ) {
+
+		parseInt(x);
+		this.x = x;
+		this.y = y;
+	}
+
+}

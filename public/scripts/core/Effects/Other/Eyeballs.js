@@ -3,9 +3,7 @@
 	eyeballsEffector.js
 
 
-	container to render all eyeball objects, based on X/Y of this asteroid, and X/Y of player ship. Takes size constructor
-
-
+	container to render all eyeball objects, based on X/Y of this asteroid, and X/Y of player ship. Takes position and size parameterss
 */
 
 
@@ -21,9 +19,9 @@ export default class Eyeballs {
 
 		this.__gameSession = new GameSession;
 
-		this.__eyeball = new EllipseGameObject( position, size, size, 1, "yellow", true, 255 );	
+		this.__eyeball = new EllipseGameObject( position, size, size, 0, 1, 255, "gray", true );	
 
-		this.__pupil = new EllipseGameObject( position, size/4, size/4, 1, "red", true, 255);
+		this.__pupil = new EllipseGameObject( position, size/4, size/4, 0, 1, 255, "red", true );
 
 		this.__eyeballSize = size;
 

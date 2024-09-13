@@ -78,6 +78,12 @@ export default class JuiceSettings {
 	    		eyeBalls: {
 	    			active : false
 	    		}
+	    	},
+	    	particleTest: {
+	    		particles: {
+	    			active : true,
+	    			particleSystem : "asteroidHit"
+	    		}
 	    	}
 	    };
 
@@ -101,7 +107,6 @@ export default class JuiceSettings {
 	    };
 
 		console.log("default juice settings created");
-
 
 	}
 

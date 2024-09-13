@@ -1,9 +1,14 @@
 import Manager from "./Manager.js";
-import JetSmoke from "../Effects/ParticleEffects/JetSmoke.js";
-import SmokeTrail from "../Effects/ParticleEffects/SmokeTrail.js";
+//import JetSmoke from "../Effects/ParticleEffects/JetSmoke.js";
+//import SmokeTrail from "../Effects/ParticleEffects/SmokeTrail.js";
 import SpriteParticle from "../Effects/ParticleEffects/SpriteParticle.js";
-import JetParticleSystem from "../Effects/ParticleEffects/JetParticleSystem.js";
-import SmokeTrailSystem from "../Effects/ParticleEffects/SmokeTrailSystem.js";
+//import JetParticleSystem from "../Effects/ParticleEffects/JetParticleSystem.js";
+//import SmokeTrailSystem from "../Effects/ParticleEffects/SmokeTrailSystem.js";
+
+
+/* Takes a particle cue and uses it to generate a particle system */
+/* TK I really don't understand how this works and it needs to be fixed */
+/* Lots of code here for the smoke trail from the ship, which should never have been independent of the holistic particle system */
 
 
 export default class ParticleManager extends Manager {
@@ -26,6 +31,7 @@ export default class ParticleManager extends Manager {
 
     }
 
+    // singleton code
     get instance() {
         return this.__instance;
     }
@@ -52,25 +58,6 @@ export default class ParticleManager extends Manager {
         this.__isPlaying = false;
     }
 
-    //position is Vector 
-    addSmoke(x, y) {
-        var startPosition = this.p5.createVector(x, y);
-        var smokeSystem = new SmokeTrailSystem("SmokeTrail", null, startPosition, 0, 3, 1000, true);
-        this.addParticleSystem(smokeSystem);
-    }
-
-    addJet(x,y, rotation) {
-        /*
-            let particlePosition = this.p5.createVector(x,y);
-            this.addParticle(new JetSmoke(200, particlePosition, rotation, (0.1 + velocity.mag() / 10) * Math.random(5, 10)), [200, 204, 2]);
-        */
-        var startPosition = this.p5.createVector(x, y);
-        var jetSystem = new JetParticleSystem("JetForShip", null, startPosition, rotation, 100, 100, true);
-        this.addParticleSystem(jetSystem);
-    }
-
-
-
     addParticleSystem(newParticleSystem) {
         this.__particleSystems.push(newParticleSystem);
     }
@@ -94,3 +81,22 @@ export default class ParticleManager extends Manager {
     }
 
 }
+
+/* old stuff */
+  //position is Vector 
+    // addSmoke(x, y) {
+    //     var startPosition = this.p5.createVector(x, y);
+    //     var smokeSystem = new SmokeTrailSystem("SmokeTrail", null, startPosition, 0, 3, 1000, true);
+    //     this.addParticleSystem(smokeSystem);
+    // }
+
+    // addJet(x,y, rotation) {
+    //     /*
+    //         let particlePosition = this.p5.createVector(x,y);
+    //         this.addParticle(new JetSmoke(200, particlePosition, rotation, (0.1 + velocity.mag() / 10) * Math.random(5, 10)), [200, 204, 2]);
+    //     */
+    //     var startPosition = this.p5.createVector(x, y);
+    //     var jetSystem = new JetParticleSystem("JetForShip", null, startPosition, rotation, 100, 100, true);
+    //     this.addParticleSystem(jetSystem);
+    // }
+
