@@ -20,17 +20,15 @@ export default class VectorParticleEffect {
         //a particle effect gets an X/Y; its duration is based on
         //the lifespan of the actual particles
 
-        console.log("the null object's X position is ",triggerObject.position.x);
-
         this.__gameSession = new GameSession();
 
         this.__particles = new Array();
 
         this.__positionVector = this.gameSession.p5.createVector(triggerObject.position.x,triggerObject.position.y);
 
-        console.log(this.positionVector.x);
+        this.__effectParameters = effectParameters;
 
-        this.initiateEffect(effectParameters);
+        this.initiateEffect();
 
     }
 
@@ -43,110 +41,114 @@ export default class VectorParticleEffect {
         }
     }
 
-//     update() {
+    update() {
 
-//         for(let i = this.particles.length - 1; i >=0; i-- ){
-//             if(this.particles[i].finished()){
-//                 this.particles.splice(i, 1);
-//             }
-//             else{
-//                 this.particles[i].update();
-//             }
-//         }
+        for(let i = this.particles.length - 1; i >=0; i-- ){
+            if(this.particles[i].finished()){
+                this.particles.splice(i, 1);
+            }
+            else{
+                this.particles[i].update();
+            }
+        }
 
-//     }
+    }
 
-//     render() {
+    render() {
         
-//         for(let i = this.particles.length - 1; i >=0; i-- ){
-//             this.particles[i].render();
-//         }
+        for(let i = this.particles.length - 1; i >=0; i-- ){
+            this.particles[i].render();
+        }
 
-//     }
+    }
 
-     initiateEffect( effectParameters ) {
+     initiateEffect( ) {
 
-           let count = effectParameters.vectorParticle.count;
+           let count = this.effectParameters.vectorParticle.count;
 
-//         for(let i=0; i<count; i++ ) {
-//             let tempObject = this.spawnParticle(effectParameters,i);
-//             this.particles.push(tempObject);
-//         }
+           for(let i=0; i<count; i++ ) {
+               let tempObject = this.spawnParticle(i);
+               this.particles.push(tempObject);
+           }
 
      }
 
 
      spawnParticle( effectParameters, particleIndex ) {
 
-//         let size = effectParameters.vectorParticle.size;
-//         let shape = effectParameters.vectorParticle.shape;
-//         let particleVertices;
+            let shape = this.effectParameters.vectorParticle.shape;
+            let lifeSpan = this.effectParameters.vectorParticle.particleLife * 1000; //convert to milliseconds
+            let size = this.effectParameters.vectorParticle.size;
+            let positionVec = this.positionVector;
+
+            let rotationSpeed = this.effectParameters.vectorParticle.rotationSpeed;
+                if( this.effectParameters.vectorParticle.rotation === "random" ) {
+                    rotationSpeed = (Math.random()-0.5) * rotationSpeed;
+                }
+
+            // begin by determining direction of velocity vector
+            let xVel;
+            let yVel;
+            if( this.effectParameters.vectorParticle.pattern === "radial") {
+                let theta = 2*3.1415927 / this.effectParameters.vectorParticle.count;
+                xVel = Math.sin(theta * particleIndex);
+                yVel = Math.cos(theta * particleIndex); 
+            }
+            else {
+                xVel = (Math.random()-0.5);
+                yVel = (Math.random()-0.5);
+            }
+           let velocity = this.gameSession.p5.createVector(xVel, yVel);
+
+           // add speed to velocity vector
+           velocity.mult(this.effectParameters.vectorParticle.initialVelocity);
+           if(this.effectParameters.vectorParticle.initialVelocityRandom === true ) {
+                velocity.mult(Math.random()); //may want to tune this
+            }
+
+            let particleVertices;
         
-//         switch( shape ) {
-//             case "square":
-//                 particleVertices = [
-//                     { x: -size, y: size },
-//                     { x: size, y: size },
-//                     { x: size, y: -size },
-//                     { x: -size, y: -size },
-//                 ];
-//             break;
-//             case "triangle" : 
-//                 particleVertices = [
-//                     { x: -size, y: size/2 },
-//                     { x: size, y: size/2},
-//                     { x: 0, y: -size}
-//                 ];
-//             break;
-//             case "line" : 
-//                 particleVertices = [
-//                     { x: -size, y: size/2 },
-//                     { x: size, y: size/2},
-//                 ];
-//             break;
-//             default: 
-//                 particleVertices = [
-//                     {x:0, y:0},
-//                     {x:0, y:1},
-//                     {x:1, y:1},
-//                     {x:1, y:0}
-//                 ];
-//         }
+            switch( shape ) {
+                case "square":
+                    particleVertices = [
+                        { x: -size, y: size },
+                        { x: size, y: size },
+                        { x: size, y: -size },
+                        { x: -size, y: -size },
+                    ];
+                break;
+                case "triangle" : 
+                    particleVertices = [
+                        { x: -size, y: size/2 },
+                        { x: size, y: size/2},
+                        { x: 0, y: -size}
+                    ];
+                break;
+                case "line" : 
+                    particleVertices = [
+                        { x: -size, y: size/2 },
+                        { x: size, y: size/2},
+                    ];
+                break;
+                default: 
+                    particleVertices = [
+                        {x:0, y:0},
+                        {x:0, y:1},
+                        {x:1, y:1},
+                        {x:1, y:0}
+                    ];
+            }
 
-//         let rotationSpeed = effectParameters.vectorParticle.rotationSpeed;
-//         if( effectParameters.vectorParticle.rotation === "random" ) {
-//             rotationSpeed = (Math.random()-0.5) * rotationSpeed;
-//         }
+        //  constructor(shape, duration, size, position, rotationSpeed, startVelocity, strokeWeight, fill, fade, particleVertices )
 
-//         let xVel;
-//         let yVel;
-//         if( effectParameters.vectorParticle.pattern === "radial") {
-//             let theta = 2*3.1415927 / effectParameters.vectorParticle.count;
-//             xVel = Math.sin(theta * particleIndex);
-//             yVel = Math.cos(theta * particleIndex); 
-//         }
-//         else {
-//             xVel = (Math.random()-0.5);
-//             yVel = (Math.random()-0.5);
-//         }
-
-//         let velocity = this.gameSession.p5.createVector(xVel, yVel);
-
-//         velocity.mult(effectParameters.vectorParticle.initialVelocity);
-
-
-//         if(effectParameters.vectorParticle.initialVelocityRandom === true ) {
-//             velocity.mult(Math.random()); //may want to tune this
-//         }
-
-//         let lifeSpan = effectParameters.vectorParticle.particleLife * 1000; //convert to milliseconds
-
-// //    constructor(duration, size, particleVertices, position, rotation, startVelocity, strokeWeight,fill)        
-
-          return new VectorParticle2(shape,lifeSpan,1,this.positionVector,rotationSpeed,velocity, 1, 0, true,particleVertices);
+        return new VectorParticle2(shape,lifeSpan,size, positionVec,rotationSpeed,velocity, 1, 0, true, particleVertices);
 
      }
 
+
+    get effectParameters() {
+        return this.__effectParameters;
+    }
 
     get particles() {
         return this.__particles;

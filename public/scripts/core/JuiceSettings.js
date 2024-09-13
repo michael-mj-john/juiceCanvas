@@ -103,6 +103,21 @@ export default class JuiceSettings {
 	    			fade : true,
 	    			followObject : false
 	    		}
+	    	},
+	    	particleTest: {
+	    		vectorParticle: {
+	    			shape : "line",
+	    			count : 15,
+	    			size: 10,
+	    			pattern : "radial",
+	    			rotation : "random",
+	    			rotationSpeed: 5,
+	    			particleLife : 2,
+	    			initialVelocityRandom: false,
+	    			initialVelocity : 30,
+	    			fade : true,
+	    			followObject : false
+	    		}
 	    	}
 	    };
 

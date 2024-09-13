@@ -40,6 +40,7 @@ export default class GameUpdate {
         this.gameSession.shipManager.ship.render();
         this.gameSession.asteroidManager.render();
         this.gameSession.particleManager.render();
+        this.gameSession.juiceEventManager.render();
 
     }
 

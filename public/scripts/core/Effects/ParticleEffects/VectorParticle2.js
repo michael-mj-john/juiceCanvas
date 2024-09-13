@@ -9,7 +9,7 @@ import VectorGameObject from "../../VectorGameObject.js";
 
 export default class VectorParticle2 extends VectorGameObject {
 
-    constructor(shape, duration, size, position, rotationSpeed, startVelocity, strokeWeight,fill,fade, particleVertices) {
+    constructor(shape, duration, size, position, rotationSpeed, startVelocity, strokeWeight, fill, fade, particleVertices) {
 
         if (size === null) {
             size = 1;
@@ -52,6 +52,7 @@ export default class VectorParticle2 extends VectorGameObject {
     }
 
     // something like gravity can change acceleration of particles in runtime
+    // not currently used though
     applyForce(force) {
         this.__accelerationVector = force;
     }
@@ -78,6 +79,11 @@ export default class VectorParticle2 extends VectorGameObject {
 
         //note that unlike other objects, particles do not wrap
         //super.wrap();
+
+    }
+
+    render() {
+        super.render();
 
     }
 

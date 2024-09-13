@@ -35,7 +35,7 @@ export default class ParticleSystem2 {
 
 		this.__effectParameters = this.__gameSession.juiceSettings.particleSystems[eventName];
 
-		this.initiateSystem(eventName, triggerObject);
+		this.initiateSystem(this.effectParameters, triggerObject);
 
 	}
 
@@ -78,11 +78,8 @@ export default class ParticleSystem2 {
 	}
 
 
+	// named as a factory to accommodate a future world of more than just vector particles. For now it's a bit of false advertising
 	particleEffectFactory() {
-
-		// named as a factory to accommodate a future world of more than just vector particles. For now it's a bit of false advertising
-
-		console.log("here we go with the particles")
 
 		// pass a single object to the effect, it returns an array of particles single particle
 		return new VectorParticleEffect(this.effectParameters, this.triggerObject);
