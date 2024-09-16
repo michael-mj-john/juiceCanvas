@@ -42,7 +42,7 @@ export default class VectorParticle2 extends VectorGameObject {
         this.__fade = fade;
 
         // acceleration vector
-        this.__accelerationVector = this.p5.createVector(0, 0);
+        this.__accelerationVector = this.p5.createVector(1.02, 1.02);
 
     }
 
@@ -60,14 +60,12 @@ export default class VectorParticle2 extends VectorGameObject {
     update() {
 
         // this changes the velocity by acceleration vector
-        this.velocity.add(this.__accelerationVector);
+        this.velocity.mult(this.__accelerationVector);
 
         // this is for calculating deltaDistance using mult(), but not changing the original velocity
         let tmpVelocity = this.p5.createVector(this.velocity.x, this.velocity.y);
         let deltaDistance = tmpVelocity.mult(this.gameSession.timeManager.deltaTime);
 
-        console.log
-        
         this.position.add(deltaDistance);
 
         this.rotation += (this.rotationSpeed * this.gameSession.timeManager.deltaTime);

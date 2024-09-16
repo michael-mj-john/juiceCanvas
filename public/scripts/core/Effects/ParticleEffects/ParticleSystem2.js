@@ -50,7 +50,6 @@ export default class ParticleSystem2 {
 
 	// for the moment because a system can have only one effect, this is pretty redundant and simple
 	initiateSystem(eventName, triggerObject) {
-        console.log("we will make a", eventName);
 
        	let particleEffectObject = this.particleEffectFactory(eventName,triggerObject);
    		this.particleEffects.push(particleEffectObject);

@@ -66,6 +66,11 @@ export default class InputManager extends Manager {
             this.gameSession.juiceEventManager.addNew("particleTest", nullObject);
         }
 
+        if(keyInputValue === 'z') {
+            let nullObject = new NullGameObject(this.gameSession.p5.createVector(300,300));
+            this.gameSession.juiceEventManager.addNew("asteroidHit", nullObject);
+        }
+
         // cheat code to switch eyeballs on and off (code is for a toggle)
         if( keyInputValue === "g") {
             let eyeBallFlag = this.gameSession.juiceSettings.container.eyeBallsOnAsteroids.eyeBalls.active;
@@ -73,6 +78,7 @@ export default class InputManager extends Manager {
             this.gameSession.juiceSettings.updateJuice("eyeBallsOnAsteroids", "eyeBalls", "active", eyeBallFlag);
         }
     }
+
 
 
     get inputObject() {

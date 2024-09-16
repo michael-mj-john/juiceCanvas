@@ -70,7 +70,7 @@ export default class JuiceSettings {
 	    	},
 	    	asteroidHit: {
 	    		particles: {
-	    			active : false,
+	    			active : true,
 	    			particleSystem : "asteroidHit" // this field is not yet implemented
 	    		}
 	    	},
@@ -106,7 +106,7 @@ export default class JuiceSettings {
 	    	},
 	    	particleTest: {
 	    		vectorParticle: {
-	    			shape : "line",
+	    			shape : "circle",
 	    			count : 15,
 	    			size: 10,
 	    			pattern : "radial",

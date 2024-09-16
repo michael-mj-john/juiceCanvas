@@ -74,7 +74,7 @@ export default class VectorParticleEffect {
      }
 
 
-     spawnParticle( effectParameters, particleIndex ) {
+     spawnParticle( particleIndex ) {
 
             let shape = this.effectParameters.vectorParticle.shape;
             let lifeSpan = this.effectParameters.vectorParticle.particleLife * 1000; //convert to milliseconds
