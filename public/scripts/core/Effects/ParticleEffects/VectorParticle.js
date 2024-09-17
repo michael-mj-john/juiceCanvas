@@ -1,22 +1,20 @@
-// Particle.js for vector particles 
+// generator for vector particles
+// the actual array of particles is managed by VectorParticleEffect.js 
 // (we don't have a provision for bitmap particles)
 
 
+import GameSession from "../../GameSession.js";
 import VectorGameObject from "../../VectorGameObject.js";
 
 
 export default class VectorParticle extends VectorGameObject {
 
-    //TODO: Eliminate default arguments (apparently not good form in js)
-    constructor(duration, size, particleVertices, position, rotation, startVelocity, strokeWeight,fill) {
+    constructor(shape, duration, size, position, rotationSpeed, startVelocity, strokeWeight, fill, fade, particleVertices) {
 
-        // in order to keep Particle abstract, this stuff should be moved into a sub-class. I think that each particle effect should have its own class that can 
-        // readily inherit from this Particle class -MJ
         if (size === null) {
             size = 1;
         }
         if (particleVertices === null) {
-
             particleVertices = [
                 { x: -size, y: size },
                 { x: size, y: size },
@@ -25,52 +23,94 @@ export default class VectorParticle extends VectorGameObject {
             ];
         }
 
-        super(position.x, position.y, particleVertices, true, strokeWeight, fill, rotation, 1, 255);
+        super(position.x, position.y, particleVertices, true, strokeWeight, fill, 0, 1, 255, shape);
 
+        this.__gameSession = new GameSession;
+
+        // set up time manager, and record start time
         this.__timeManager = this.__gameSession.timeManager;
         this.__startTime = this.__timeManager.time;
 
+        // duration in milliseconds
         this.__duration = duration;
 
-        // velocity vector
-        this.__position = position;
-        this.__velocity = startVelocity;
-        this.__rotation = rotation;
+        // velocity is pixels/second, rotation is rotations (2pi radians)/sec
 
+        startVelocity.mult(.005); // velocity is very large, needs to be scaled
+        this.__velocity = startVelocity;
+        this.__rotationSpeed = rotationSpeed * .005;
+        this.__fade = fade;
 
         // acceleration vector
-        this.__accelerationVector = this.p5.createVector(0, 0);
+        this.__accelerationVector = this.p5.createVector(1.02, 1.02);
 
     }
 
+    // returns true or false depending on whether the particle's lifetime has exceeded its defined duration
     finished() {
         return (this.__timeManager.time - this.__startTime) >= this.__duration;
     }
 
     // something like gravity can change acceleration of particles in runtime
+    // not currently used though
     applyForce(force) {
         this.__accelerationVector = force;
     }
 
     update() {
 
-        if (!this.finished()) {
-            // this changes the velocity by acceleration vector
-            this.__velocity.add(this.__accelerationVector);
+        // this changes the velocity by acceleration vector
+        this.velocity.mult(this.__accelerationVector);
 
-            // this is for calculating deltaDistance using mult(), but not changing the original velocity
-            var tmpVelocity = this.p5.createVector(this.__velocity.x, this.__velocity.y);
-            var deltaDistance = tmpVelocity.mult(this.__timeManager.deltaTime);
-            this.__position.add(deltaDistance);
+        // this is for calculating deltaDistance using mult(), but not changing the original velocity
+        let tmpVelocity = this.p5.createVector(this.velocity.x, this.velocity.y);
+        let deltaDistance = tmpVelocity.mult(this.gameSession.timeManager.deltaTime);
 
-            //check if at edge of screen; if so, wrap around
-            super.wrap();
+        this.position.add(deltaDistance);
+
+        this.rotation += (this.rotationSpeed * this.gameSession.timeManager.deltaTime);
+
+        if( this.fade === true) {
+            let fadePercent = (this.__timeManager.time - this.__startTime) / this.__duration; 
+            this.alpha = 255 - (255 * fadePercent);
         }
+
+        //note that unlike other objects, particles do not wrap
+        //super.wrap();
 
     }
 
     render() {
         super.render();
+
+    }
+
+    get gameSession() {
+        return this.__gameSession;
+    }
+
+    get velocity() {
+        return this.__velocity;
+    }
+
+    get rotationSpeed() {
+        return this.__rotationSpeed;
+    }
+
+    get position() {
+        return this.__position;
+    }
+
+    get rotation() {
+        return this.__rotation;
+    }
+
+    set rotation(rotation) {
+        this.__rotation = rotation;
+    }
+
+    get fade() {
+        return this.__fade;
     }
 
 }

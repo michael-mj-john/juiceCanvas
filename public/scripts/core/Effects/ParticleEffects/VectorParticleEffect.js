@@ -10,7 +10,7 @@ TODO: should be extended into inherited class from "particle" (which currently d
 
 import GameSession from "../../GameSession.js";
 import ParticleSystem2 from "./ParticleSystem.js";
-import VectorParticle2 from "./VectorParticle2.js";
+import VectorParticle from "./VectorParticle.js";
 
 /* takes two arguments: the first is an object that holds all the parameters from the juiceSettings.js JSON file. The second is the object indicating x/y position via "position" vector*/ 
 export default class VectorParticleEffect {
@@ -141,7 +141,7 @@ export default class VectorParticleEffect {
 
         //  constructor(shape, duration, size, position, rotationSpeed, startVelocity, strokeWeight, fill, fade, particleVertices )
 
-        return new VectorParticle2(shape,lifeSpan,size, positionVec,rotationSpeed,velocity, 1, 0, true, particleVertices);
+        return new VectorParticle(shape,lifeSpan,size, positionVec,rotationSpeed,velocity, 1, 0, true, particleVertices);
 
      }
 
