@@ -20,9 +20,10 @@ Therefore for example, PARTICLEMANAGER is now obsolete
 
 
 import Manager from "./Manager.js";
+import NullGameObject from "../NullGameObject.js";
 import ScreenShakeEffector from "../Effects/ScreenShake/ScreenShakeEffector.js";
 import ColorFlashEffector from "../Effects/ColorFlash/ColorFlashEffector.js";
-import ParticleSystem2 from "../Effects/ParticleEffects/ParticleSystem2.js";
+import ParticleSystem from "../Effects/ParticleEffects/ParticleSystem.js";
 import TimeSlowEffector from "../Effects/TimeEffects/TimeSlowEffector.js";
 
 export default class JuiceEventManager extends Manager {
@@ -89,7 +90,7 @@ export default class JuiceEventManager extends Manager {
             console.log("DEBUG: " + eventName + " juice event added")
         }
         else {
-            console.log("error: " + eventName + " event is not defined in juiceSettings");
+            console.log("ERROR: " + eventName + " event is not defined in juiceSettings");
         }
 
 	}
@@ -106,7 +107,8 @@ export default class JuiceEventManager extends Manager {
 				return new ColorFlashEffector(eventName);
 				break;
 			case "particles":
-				return new ParticleSystem2(eventName,triggerObject);
+				let triggerObjectVec = new NullGameObject(this.gameSession.p5.createVector(triggerObject.position.x,triggerObject.position.y));
+				return new ParticleSystem(eventName,triggerObjectVec);
 				break;
 			case "timeSlow":
 				console.log("slowed time");

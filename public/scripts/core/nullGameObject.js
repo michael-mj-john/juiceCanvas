@@ -9,6 +9,7 @@ Exists solely for debug purposes, but could be used to for example spawn particl
 import GameObject from "./GameObject.js";
 
 
+// takes only position (vector), width, height and rotation. The remainder are defaults.
 export default class NullGameOjbect extends GameObject {
 	
 	constructor(position, width, height, rotation ) {

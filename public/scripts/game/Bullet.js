@@ -40,7 +40,7 @@ export default class Bullet extends VectorGameObject {
 
             if(this.gameSession.asteroidManager.collide(this,true)) {
                 // add juice effects!
-                this.gameSession.juiceEventManager.addNew("bulletHit");
+                this.gameSession.juiceEventManager.addNew("bulletHit", this);
                 //return false if it hit an asteroid
                 return false;
             }

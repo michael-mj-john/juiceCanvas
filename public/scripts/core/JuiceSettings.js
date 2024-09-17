@@ -27,6 +27,11 @@ export default class JuiceSettings {
 	    		}
 	    	},
 	    	bulletHit : {
+	    		particles : {
+	    			active:  true,
+	    			particleSystem : "asteroidHit"
+	    		},
+
 	    		shake : {
 	    			active : true,
 	    			xAxis: false,
@@ -71,7 +76,7 @@ export default class JuiceSettings {
 	    	asteroidHit: {
 	    		particles: {
 	    			active : true,
-	    			particleSystem : "asteroidHit" // this field is not yet implemented
+	    			particleSystem : "asteroidHit" 
 	    		}
 	    	},
 	    	eyeBallsOnAsteroids: {
@@ -79,10 +84,10 @@ export default class JuiceSettings {
 	    			active : false
 	    		}
 	    	},
-	    	particleTest: {
+	    	particleTester: {
 	    		particles: {
 	    			active : true,
-	    			particleSystem : "asteroidHit"
+	    			particleSystem : "particleTest"
 	    		}
 	    	}
 	    };

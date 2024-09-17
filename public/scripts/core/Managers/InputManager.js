@@ -63,7 +63,7 @@ export default class InputManager extends Manager {
         /**** CHEAT CODES AND DEBUG ****/
         if(keyInputValue === "p" ) {
             let nullObject = new NullGameObject(this.gameSession.p5.createVector(250,250));
-            this.gameSession.juiceEventManager.addNew("particleTest", nullObject);
+            this.gameSession.juiceEventManager.addNew("particleTester", nullObject);
         }
 
         if(keyInputValue === 'z') {
