@@ -24,7 +24,10 @@ export default class VectorParticleEffect {
 
         this.__particles = new Array();
 
-        this.__positionVector = this.gameSession.p5.createVector(triggerObject.position.x,triggerObject.position.y);
+        this.__positionVector = this.gameSession.p5.createVector(triggerObject.position.x, triggerObject.position.y);
+        this.__velocityVector = this.gameSession.p5.createVector(triggerObject.velocity.x, triggerObject.velocity.y)
+
+        console.log(this.velocityVector.mag());
 
         this.__effectParameters = effectParameters;
 
@@ -70,7 +73,6 @@ export default class VectorParticleEffect {
                let tempObject = this.spawnParticle(i);
                this.particles.push(tempObject);
            }
-
      }
 
 
@@ -78,6 +80,7 @@ export default class VectorParticleEffect {
 
             let shape = this.effectParameters.vectorParticle.shape;
             let lifeSpan = this.effectParameters.vectorParticle.particleLife * 1000; //convert to milliseconds
+            lifeSpan = lifeSpan / 3; // web form uses integers, which is way too long
             let size = this.effectParameters.vectorParticle.size;
             let positionVec = this.positionVector;
 
@@ -99,6 +102,12 @@ export default class VectorParticleEffect {
                 yVel = (Math.random()-0.5);
             }
            let velocity = this.gameSession.p5.createVector(xVel, yVel);
+           
+           if( this.effectParameters.vectorParticle.inheritVelocity === true) {
+               this.velocityVector.setMag(Math.random()+0.5);
+               velocity.add(this.velocityVector);            
+            }
+
 
            // add speed to velocity vector
            velocity.mult(this.effectParameters.vectorParticle.initialVelocity);
@@ -156,6 +165,10 @@ export default class VectorParticleEffect {
 
     get positionVector() {
         return this.__positionVector;
+    }
+
+    get velocityVector() {
+        return this.__velocityVector;
     }
 
     get gameSession() {

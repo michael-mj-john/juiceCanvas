@@ -88,7 +88,7 @@ export default class ParticleSystem {
 		let effectReference = this.gameSession.juiceSettings.container[this.eventName].particles.particleSystem;
 		let effectParameters = this.gameSession.juiceSettings.particleSystems[effectReference];
 
-		// pass a single object to the effect, it returns an array of particles single particle
+		// pass a single object to the effect, it returns an array of vector particles 
 		return new VectorParticleEffect(effectParameters, this.triggerObject);
 
 	}

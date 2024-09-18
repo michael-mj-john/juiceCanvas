@@ -107,8 +107,7 @@ export default class JuiceEventManager extends Manager {
 				return new ColorFlashEffector(eventName);
 				break;
 			case "particles":
-				let triggerObjectVec = new NullGameObject(this.gameSession.p5.createVector(triggerObject.position.x,triggerObject.position.y));
-				return new ParticleSystem(eventName,triggerObjectVec);
+				return new ParticleSystem(eventName,triggerObject);
 				break;
 			case "timeSlow":
 				console.log("slowed time");

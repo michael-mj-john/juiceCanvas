@@ -29,7 +29,7 @@ export default class JuiceSettings {
 	    	bulletHit : {
 	    		particles : {
 	    			active:  true,
-	    			particleSystem : "asteroidHit"
+	    			particleSystem : "bulletHit"
 	    		},
 
 	    		shake : {
@@ -106,9 +106,27 @@ export default class JuiceSettings {
 	    			initialVelocityRandom: false,
 	    			initialVelocity : 30,
 	    			fade : true,
-	    			followObject : false
+	    			followObject : false,
+	    			inheritVelocity : true
 	    		}
 	    	},
+	    	bulletHit: {
+	    		vectorParticle: {
+	    			shape : "line",
+	    			count : 15,
+	    			size: 10,
+	    			pattern : "radial",
+	    			rotation : "random",
+	    			rotationSpeed: 5,
+	    			particleLife : 2,
+	    			initialVelocityRandom: false,
+	    			initialVelocity : 30,
+	    			fade : true,
+	    			followObject : false,
+	    			inheritVelocity : false
+	    		}
+	    	},
+
 	    	particleTest: {
 	    		vectorParticle: {
 	    			shape : "circle",

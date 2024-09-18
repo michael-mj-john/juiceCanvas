@@ -2,7 +2,6 @@ import GameSession from "./core/GameSession.js";
 import gameUpdate from "./core/GameUpdate.js";
 import GameState from "./game/states/GameState.js";
 import ParticleSystem from "./core/Effects/ParticleEffects/ParticleSystem.js";
-import ExplosionSystem from "./core/Effects/ParticleEffects/ExplosionSystem.js";
 
 //import p5 from "./p5/p5.js";
 //This is our global instance of P5. We will save it to our settings singleton for future access.

@@ -34,7 +34,7 @@ export default class JuiceManager extends Manager {
         // TODO: broken for completely unknown reason
         this.__bulletHitShakeToggleY = document.getElementById("bulletYAxis");
         this.__bulletHitShakeToggleY.addEventListener("change", this.bulletHitShakeToggleFunctionY);
-        console.log("DEBUG: listener on Y axis has triggered");
+ //       console.log("DEBUG: listener on Y axis has triggered");
         // this.bulletHitShakeToggleY.gameSession = this.gameSession;
 
         this.__bulletHitShakeIntensity = document.getElementById("bulletHitShakeIntensity");
@@ -53,26 +53,34 @@ export default class JuiceManager extends Manager {
         this.bulletHitFlashFade.addEventListener("change", this.bulletHitFlashFadeFunction);
         this.bulletHitFlashFade.gameSession = this.gameSession;
 
-// Asteroid Hit Particles
-        this.__asteroidHitParticleType = document.getElementById("asteroidHitParticleType");
-        this.asteroidHitParticleType.addEventListener("change", this.asteroidHitParticleTypeFunction);
-        this.asteroidHitParticleType.gameSession = this.gameSession;
+// Bullet Hit Particles
+        this.__bulletHitParticleType = document.getElementById("bulletHitParticleType");
+        this.bulletHitParticleType.addEventListener("change", this.bulletHitParticleTypeFunction);
+        this.bulletHitParticleType.gameSession = this.gameSession;
         
-        this.__asteroidHitParticlePattern = document.getElementById("asteroidHitParticlePattern");
-        this.asteroidHitParticlePattern.addEventListener("change", this.asteroidHitParticlePatternFunction);
-        this.asteroidHitParticlePattern.gameSession = this.gameSession;
+        this.__bulletHitParticlePattern = document.getElementById("bulletHitParticlePattern");
+        this.bulletHitParticlePattern.addEventListener("change", this.bulletHitParticlePatternFunction);
+        this.bulletHitParticlePattern.gameSession = this.gameSession;
 
-        this.__asteroidHitParticleCount = document.getElementById("asteroidHitParticleCount");
-        this.asteroidHitParticleCount.addEventListener("change", this.asteroidHitParticleCountFunction);
-        this.asteroidHitParticleCount.gameSession = this.gameSession;
+        this.__bulletHitParticleCount = document.getElementById("bulletHitParticleCount");
+        this.bulletHitParticleCount.addEventListener("change", this.bulletHitParticleCountFunction);
+        this.bulletHitParticleCount.gameSession = this.gameSession;
 
-        this.__asteroidHitParticleVelocity = document.getElementById("asteroidHitParticleVelocity");
-        this.asteroidHitParticleVelocity.addEventListener("change", this.asteroidHitParticleVelocityFunction);
-        this.asteroidHitParticleVelocity.gameSession = this.gameSession;
+        this.__bulletHitParticleLife = document.getElementById("bulletHitParticleLife");
+        this.bulletHitParticleLife.addEventListener("change", this.bulletHitParticleLifeFunction);
+        this.bulletHitParticleLife.gameSession = this.gameSession;
 
-        this.__asteroidHitParticleVelocityRandom = document.getElementById("asteroidHitParticleVelocityRandom");
-        this.asteroidHitParticleVelocityRandom.addEventListener("change", this.asteroidHitParticleVelocityRandomFunction);
-        this.asteroidHitParticleVelocityRandom.gameSession = this.gameSession;
+        this.__bulletHitParticleVelocity = document.getElementById("bulletHitParticleVelocity");
+        this.bulletHitParticleVelocity.addEventListener("change", this.bulletHitParticleVelocityFunction);
+        this.bulletHitParticleVelocity.gameSession = this.gameSession;
+
+        this.__bulletHitParticleVelocityRandom = document.getElementById("bulletHitParticleVelocityRandom");
+        this.bulletHitParticleVelocityRandom.addEventListener("change", this.bulletHitParticleVelocityRandomFunction);
+        this.bulletHitParticleVelocityRandom.gameSession = this.gameSession;
+
+        this.__bulletHitInheritVelocity = document.getElementById("bulletHitInheritVelocity");
+        this.bulletHitInheritVelocity.addEventListener("change", this.bulletHitInheritVelocityFunction);
+        this.bulletHitInheritVelocity.gameSession = this.gameSession;
 
         this.__deathShakeType = document.getElementById("deathShakeSelect");
         this.deathShakeType.addEventListener("change", this.deathShakeTypeFunction);
@@ -85,8 +93,6 @@ export default class JuiceManager extends Manager {
         this.__deathShakeDuration = document.getElementById("deathShakeDuration");
         this.deathShakeDuration.addEventListener("change", this.deathShakeDurationFunction);
         this.deathShakeDuration.gameSession = this.gameSession;
-
-
 
     }
     
@@ -161,51 +167,55 @@ export default class JuiceManager extends Manager {
         this.gameSession.juiceSettings.updateJuice("destroyShip","shake","duration",range);
      }
     
-     asteroidHitParticleTypeFunction() {
+     bulletHitParticleTypeFunction() {
         let selected = this.value;
+        console.log(selected);
         if( selected === "none" ) {
-            this.gameSession.juiceSettings.updateJuice("asteroidHit","particles","active",false);
+            //console.log(this.value);
+            this.gameSession.juiceSettings.updateJuice("bulletHit","particles","active",false);
         }
         else {
-            this.gameSession.juiceSettings.updateJuice("asteroidHit","particles","active",true);
-            this.gameSession.juiceSettings.updateParticleSystem("asteroidHit","vectorParticle","shape",selected);
+            this.gameSession.juiceSettings.updateJuice("bulletHit","particles","active",true);
+            this.gameSession.juiceSettings.updateParticleSystem("bulletHit","vectorParticle","shape",selected);
         }
      }
 
-     asteroidHitParticlePatternFunction() {
+     bulletHitParticlePatternFunction() {
         let selected = this.value;
-        this.gameSession.juiceSettings.updateParticleSystem("asteroidHit","vectorParticle","pattern",selected);
+        this.gameSession.juiceSettings.updateParticleSystem("bulletHit","vectorParticle","pattern",selected);
      }
 
-     asteroidHitParticleCountFunction() {
+     bulletHitParticleCountFunction() {
         let selected = parseInt(this.value);
-        this.gameSession.juiceSettings.updateParticleSystem("asteroidHit","vectorParticle","count",selected);
+        this.gameSession.juiceSettings.updateParticleSystem("bulletHit","vectorParticle","count",selected);
      }
 
-     asteroidHitParticleVelocityFunction() {
+     bulletHitParticleLifeFunction() {
         let selected = parseInt(this.value);
-        this.gameSession.juiceSettings.updateParticleSystem("asteroidHit","vectorParticle","initialVelocity",selected);
+        this.gameSession.juiceSettings.updateParticleSystem("bulletHit","vectorParticle","particleLife",selected);
+     }
+     bulletHitParticleVelocityFunction() {
+        let selected = parseInt(this.value);
+        this.gameSession.juiceSettings.updateParticleSystem("bulletHit","vectorParticle","initialVelocity",selected);
      }
     
-
-     asteroidHitParticleVelocityRandomFunction() {
+     bulletHitParticleVelocityRandomFunction() {
         let selected = this.checked;
-        this.gameSession.juiceSettings.updateParticleSystem("asteroidHit","vectorParticle","initialVelocityRandom",selected);
+        this.gameSession.juiceSettings.updateParticleSystem("bulletHit","vectorParticle","initialVelocityRandom",selected);
      }
 
-     asteroidHitParticleLifeFunction() {
-        let selected = parseInt(this.value);
-        this.gameSession.juiceSettings.updateParticleSystem("asteroidHit","vectorParticle","particleLife",selected)
+      bulletHitInheritVelocityFunction() {
+        let selected = this.checked;
+        this.gameSession.juiceSettings.updateParticleSystem("bulletHit","vectorParticle","inheritVelocity",selected);
      }
-
-     asteroidHitParticleRotationSpeedFunction() {
+    bulletHitParticleRotationSpeedFunction() {
         let selected = parseInt(this.value);
-        this.gameSession.juiceSettings.updateParticleSystem("asteroidHit","vectorParticle","rotationSpeed",selected);
+        this.gameSession.juiceSettings.updateParticleSystem("bulletHit","vectorParticle","rotationSpeed",selected);
     }
 
-    asteroidHitParticleRotationRandomFunction() {
+    bulletHitParticleRotationRandomFunction() {
         let selected = this.value;
-        this.gameSession.juiceSettings.updateParticleSystem("asteroidHit","vectorParticle","rotation",selected);
+        this.gameSession.juiceSettings.updateParticleSystem("bulletHit","vectorParticle","rotation",selected);
     }
 
 
@@ -320,25 +330,31 @@ export default class JuiceManager extends Manager {
         this.__rangeExample = rangeExample;
     }
 
-    get asteroidHitParticleType() {
-        return this.__asteroidHitParticleType;
+    get bulletHitParticleType() {
+        return this.__bulletHitParticleType;
     }
 
-    get asteroidHitParticleCount() {
-        return this.__asteroidHitParticleCount;
+    get bulletHitParticleCount() {
+        return this.__bulletHitParticleCount;
     }
 
-    get asteroidHitParticlePattern() {
-        return this.__asteroidHitParticlePattern;
+    get bulletHitParticleLife() {
+        return this.__bulletHitParticleLife;
     }
 
-    get asteroidHitParticleVelocity() {
-        return this.__asteroidHitParticleVelocity;
+    get bulletHitParticlePattern() {
+        return this.__bulletHitParticlePattern;
     }
 
-    get asteroidHitParticleVelocityRandom() {
-        return this.__asteroidHitParticleVelocityRandom;
+    get bulletHitParticleVelocity() {
+        return this.__bulletHitParticleVelocity;
+    }
+
+    get bulletHitParticleVelocityRandom() {
+        return this.__bulletHitParticleVelocityRandom;
     }
     
-
+    get bulletHitInheritVelocity() {
+        return this.__bulletHitInheritVelocity;
+    }
 }
