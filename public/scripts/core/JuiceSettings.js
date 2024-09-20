@@ -34,12 +34,12 @@ export default class JuiceSettings {
 
 	    		shake : {
 	    			active : true,
-	    			xAxis: false,
+	    			xAxis: true,
 	    			yAxis : false,
 	    			rotation : false,
 	    			duration : 0.2, // nominal duration: 0.3 seconds
 	    			intensity : 2.5,
-	    			form : "noise",
+	    			form : "sine",
 	    			fade : "exponential"
 	    		},
 	    		colorFlash : {

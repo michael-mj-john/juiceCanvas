@@ -26,16 +26,15 @@ export default class JuiceManager extends Manager {
         this.bulletHitShakeType.addEventListener("change", this.bulletHitShakeTypeFunction);
         this.bulletHitShakeType.gameSession = this.gameSession;
 
-        this.__bulletHitShakeToggleX = document.getElementById("bulletXAxis");
+        this.__bulletHitShakeToggleX = document.getElementById("bulletHorizontalShake");
         this.bulletHitShakeToggleX.addEventListener("change", this.bulletHitShakeToggleFunctionX);
         this.bulletHitShakeToggleX.gameSession = this.gameSession;
         
 
         // TODO: broken for completely unknown reason
-        this.__bulletHitShakeToggleY = document.getElementById("bulletYAxis");
-        this.__bulletHitShakeToggleY.addEventListener("change", this.bulletHitShakeToggleFunctionY);
- //       console.log("DEBUG: listener on Y axis has triggered");
-        // this.bulletHitShakeToggleY.gameSession = this.gameSession;
+        this.__bulletHitShakeToggleYaxis = document.getElementById("bulletVerticalShake");
+        this.bulletHitShakeToggleYaxis.addEventListener("change", this.bulletHitShakeToggleFunctionYaxis);
+        this.bulletHitShakeToggleYaxis.gameSession = this.gameSession;
 
         this.__bulletHitShakeIntensity = document.getElementById("bulletHitShakeIntensity");
         this.bulletHitShakeIntensity.addEventListener("change", this.bulletHitShakeIntensityFunction);
@@ -116,7 +115,7 @@ export default class JuiceManager extends Manager {
         this.gameSession.juiceSettings.updateJuice("bulletHit","shake","xAxis",inputStatus);
      }
 
-    bulletHitShakeToggleFunctionY() {
+    bulletHitShakeToggleFunctionYaxis() {
         let inputStatus = this.checked;
         this.gameSession.juiceSettings.updateJuice("bulletHit","shake","yAxis",inputStatus);
      }
@@ -169,9 +168,7 @@ export default class JuiceManager extends Manager {
     
      bulletHitParticleTypeFunction() {
         let selected = this.value;
-        console.log(selected);
         if( selected === "none" ) {
-            //console.log(this.value);
             this.gameSession.juiceSettings.updateJuice("bulletHit","particles","active",false);
         }
         else {
@@ -258,12 +255,8 @@ export default class JuiceManager extends Manager {
         this.__bulletHitShakeToggleX = bulletHitShakeToggleX;
     }
 
-    get bulletHitShakeToggleY() {
-        return this.__bulletHitShakeToggleY;
-    }
-
-    set bulletHitShakeToggleY(bulletHitShakeToggleY) {
-        this.__bulletHitShakeToggleY = bulletHitShakeToggleY;
+    get bulletHitShakeToggleYaxis() {
+        return this.__bulletHitShakeToggleYaxis;
     }
 
     get bulletHitShakeDuration() {

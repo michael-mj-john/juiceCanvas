@@ -27,8 +27,6 @@ export default class VectorParticleEffect {
         this.__positionVector = this.gameSession.p5.createVector(triggerObject.position.x, triggerObject.position.y);
         this.__velocityVector = this.gameSession.p5.createVector(triggerObject.velocity.x, triggerObject.velocity.y)
 
-        console.log(this.velocityVector.mag());
-
         this.__effectParameters = effectParameters;
 
         this.initiateEffect();

@@ -36,12 +36,15 @@ export default class ScreenShakeEffector {
 
         this.__intensityMultiplier = 60;
 
+        if( Math.random() > 0.5) {
+            this.__initialDirection = 1; // right
+        }
+        else {
+            this.__initialDirection = -1; // left
+        }
 
-
-        console.log("DEBUG: x axis boolean: " + this.__xAxis)
-        console.log("DEBUG: y axis boolean: " + this.__yAxis)
-
-
+        console.log("x axis", this.xAxis);
+        console.log("y axis", this.yAxis);
 
     }
 
@@ -122,7 +125,16 @@ export default class ScreenShakeEffector {
     sineShake() {
 
         // frequency is hard-coded here. That is bad.
-        return this.gameSession.p5.sin(this.gameSession.timeManager.time / 10) * this.currentIntensity * this.intensityMultiplier;
+        let angle = 2 * Math.PI;
+        let frequency = 0.5; // cycles per second
+        let timeStamp = (this.gameSession.timeManager.time - this.startTime) //* 1000; //milliseconds since effect started
+        timeStamp = timeStamp * frequency;
+
+        let position = this.gameSession.p5.radians(timeStamp);
+
+        let offsetValue = this.gameSession.p5.sin(position) * this.currentIntensity * this.intensityMultiplier * this.initialDirection;
+
+        return offsetValue;
     }
 
     randomShake () {
@@ -151,6 +163,10 @@ export default class ScreenShakeEffector {
 
     get intensityMultiplier() {
         return this.__intensityMultiplier;
+    }
+
+    get initialDirection() {
+        return this.__initialDirection;
     }
 
     get duration(){
