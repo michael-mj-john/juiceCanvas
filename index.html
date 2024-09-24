@@ -107,6 +107,7 @@
                   <div class="juice-effect collapse" data-bs-toggle="collapse" id="bulletHitScreenShake" aria-expanded="false">
                     <div class="juice-item">
                       <select class="form-select" aria-label="bulletHitShakeSelect" id="bulletHitShakeSelect">
+                        <option value="none">none</option>
                         <option value="sine">sine wave</option>
                         <option value="random">random</option>
                         <option value="noise">perlin noise</option>
@@ -115,6 +116,11 @@
                       <input class="form-check-input" type="checkbox" value="" id="bulletHorizontalShake"><br>
                       <label for="bulletVerticalShake" class="form-label">Y Axis</label>
                       <input class="form-check-input" type="checkbox" value="" id="bulletVerticalShake"><br>
+                    </div>
+
+                    <div class="juice-item">
+                      <label for="bulletHitShakeFrequency" class="form-label">Shake Frequency</label>
+                      <input type="range" class="form-range" min=1 max=100 id="bulletHitShakeFrequency">
                     </div>
 
                     <div class="juice-item">

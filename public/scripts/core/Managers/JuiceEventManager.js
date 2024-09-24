@@ -43,6 +43,7 @@ export default class JuiceEventManager extends Manager {
         // array of ints to hold number of effects currently in play. Avoids inappropriate stacking of 
         // certain effects. 
         this.__effectSemaphors = [];
+        this.__shakeSemaphore = false; // screen shakes should be allowed to complete before another shake is fired
 
         if( this.gameSession.verbose === true ) {
 	        console.log("juice event Manager created successfully");
@@ -55,7 +56,11 @@ export default class JuiceEventManager extends Manager {
 	    // iterates backwards for removing element in-place when necessary
 	    for(let i = this.effectors.length - 1; i >=0; i-- ){
             if(this.effectors[i].finished()){
-                this.effectSemaphors[this.effectors[i].effectName] = false;
+                // if( this.effectors[i].effectName === "shake") {
+                // 	this.shakeSemaphore = false;
+                // 	console.log("screen shake effect complete");
+                // }
+                // this.effectSemaphors[this.effectors[i].effectName] = false;
                 this.effectors.splice(i, 1);
             }
             else{
@@ -76,16 +81,24 @@ export default class JuiceEventManager extends Manager {
 	//interface is string, object. String is required, object is optional
 	addNew(eventName, triggerObject) {
 
+		console.log("shake semaphore: ", this.shakeSemaphore);
+
         // ensure that this event exists
         if( eventName in this.gameSession.juiceSettings.container) {
             // a given event may have more than one effect/system. Iterate through each
             for( let effectName in this.gameSession.juiceSettings.container[eventName] ) {
             	// create an effect object and push it onto effectors[] array
             	if( this.gameSession.juiceSettings.container[eventName][effectName].active === true ) {
-    	        	let effectObject = this.newEventFactory(eventName,effectName,triggerObject);
-            		this.effectors.push(effectObject);
-            		this.effectSemaphors[effectName] = true;
-            	}
+					if(effectName === "shake" && this.shakeSemaphore === true) {
+						console.log("shake blocked");
+						continue;
+					}
+					else {
+	    	        	let effectObject = this.newEventFactory(eventName,effectName,triggerObject);
+	            		this.effectors.push(effectObject);
+	            		this.effectSemaphors[effectName] = true;
+	            	}
+	            }
             }
             console.log("DEBUG: " + eventName + " juice event added")
         }
@@ -101,7 +114,10 @@ export default class JuiceEventManager extends Manager {
 
 		switch(effectName) {
 			case "shake":
-				return new ScreenShakeEffector(eventName);
+				// only one screen shake effect can be active at a time, and they do not interrupt
+//				this.shakeSemaphore = true;
+				console.log("running screen shake");
+				return new ScreenShakeEffector(eventName);					
 				break;
 			case "colorFlash":
 				return new ColorFlashEffector(eventName);
@@ -134,6 +150,14 @@ export default class JuiceEventManager extends Manager {
 
 	set effectSemaphors(effectSemaphor) {
 		this.__effectSemaphors = effectSemaphors;
+	}
+
+	get shakeSemaphore() {
+		return this.__shakeSemaphore;
+	}
+
+	set shakeSemaphore(shakeSemaphore) {
+		this.__shakeSemaphore = shakeSemaphore;
 	}
 
 }

@@ -30,11 +30,14 @@ export default class JuiceManager extends Manager {
         this.bulletHitShakeToggleX.addEventListener("change", this.bulletHitShakeToggleFunctionX);
         this.bulletHitShakeToggleX.gameSession = this.gameSession;
         
-
         // TODO: broken for completely unknown reason
         this.__bulletHitShakeToggleYaxis = document.getElementById("bulletVerticalShake");
         this.bulletHitShakeToggleYaxis.addEventListener("change", this.bulletHitShakeToggleFunctionYaxis);
         this.bulletHitShakeToggleYaxis.gameSession = this.gameSession;
+
+        this.__bulletHitShakeFrequency = document.getElementById("bulletHitShakeFrequency");
+        this.bulletHitShakeFrequency.addEventListener("change", this.bulletHitShakeFrequencyFunction);
+        this.bulletHitShakeFrequency.gameSession = this.gameSession;
 
         this.__bulletHitShakeIntensity = document.getElementById("bulletHitShakeIntensity");
         this.bulletHitShakeIntensity.addEventListener("change", this.bulletHitShakeIntensityFunction);
@@ -107,6 +110,7 @@ export default class JuiceManager extends Manager {
         }
         else {
             this.gameSession.juiceSettings.updateJuice("bulletHit","shake","form",selected);
+            this.gameSession.juiceSettings.updateJuice("bulletHit","shake","active",true);
         }
      }
 
@@ -120,7 +124,13 @@ export default class JuiceManager extends Manager {
         this.gameSession.juiceSettings.updateJuice("bulletHit","shake","yAxis",inputStatus);
      }
 
-     bulletHitShakeIntensityFunction() {
+    bulletHitShakeFrequencyFunction() {
+        let range = this.value * .01;  // convert to a float between 0 and 1
+        range = range * 9; // 9 is the max frequency before artifacts happen
+        this.gameSession.juiceSettings.updateJuice("bulletHit","shake","frequency",range);       
+    }
+
+    bulletHitShakeIntensityFunction() {
         let range = this.value * .01;  // convert to a float between 0 and 1
         this.gameSession.juiceSettings.updateJuice("bulletHit","shake","intensity",range);
      }
@@ -257,6 +267,10 @@ export default class JuiceManager extends Manager {
 
     get bulletHitShakeToggleYaxis() {
         return this.__bulletHitShakeToggleYaxis;
+    }
+
+    get bulletHitShakeFrequency() {
+        return this.__bulletHitShakeFrequency;
     }
 
     get bulletHitShakeDuration() {
