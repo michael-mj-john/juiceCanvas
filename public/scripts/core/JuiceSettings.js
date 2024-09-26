@@ -33,15 +33,15 @@ export default class JuiceSettings {
 	    		},
 
 	    		shake : {
-	    			active : false,
+	    			active : true,
 	    			xAxis: false,
 	    			yAxis : false,
-	    			rotation : false,
-	    			duration : 0.2, // nominal duration: 0.3 seconds
-	    			intensity : 2.5,
+	    			duration : 0.5, // nominal duration: 0.3 seconds
+	    			amplitude : 0.5,
 	    			frequency : 10, //cycles per second
-	    			form : "sine",
-	    			fade : "exponential"
+	    			form : "simple",
+	    			fade : false,
+	    			inheritVelocity: false
 	    		},
 	    		colorFlash : {
 	    			active: false,
@@ -54,7 +54,7 @@ export default class JuiceSettings {
 	    		timeSlow : {
 	    			active : false,
 	    			scale : 0.25,
-	    			duration : 0.1,
+	    			duration : 0.1
 	    		}
 	    	},
 	    	destroyShip : {

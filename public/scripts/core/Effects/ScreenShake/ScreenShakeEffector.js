@@ -17,7 +17,7 @@ import GameSession from "../../GameSession.js";
 
 export default class ScreenShakeEffector {
 
-    constructor(eventName) {
+    constructor(eventName, triggerObject) {
         this.__gameSession = new GameSession();
 
         //construct this effector object using the juiceSettings object        
@@ -25,25 +25,31 @@ export default class ScreenShakeEffector {
         this.__xAxis = this.gameSession.juiceSettings.container[eventName].shake.xAxis; // boolean
         this.__yAxis = this.gameSession.juiceSettings.container[eventName].shake.yAxis; // boolean
         this.__frequency = this.gameSession.juiceSettings.container[eventName].shake.frequency // cycles/second
-        this.__intensity = this.gameSession.juiceSettings.container[eventName].shake.intensity; // float 0.0 - 1.0
+        this.__intensity = this.gameSession.juiceSettings.container[eventName].shake.amplitude; // float 0.0 - 1.0
         this.__duration = this.gameSession.juiceSettings.container[eventName].shake.duration * 1000; //convert to milliseconds
         this.__form = this.gameSession.juiceSettings.container[eventName].shake.form; // string, e.g. "sine" or "noise"
-        this.__fade = this.gameSession.juiceSettings.container[eventName].shake.fade; // string, typically "linear" or "exponential"
+        this.__fade = this.gameSession.juiceSettings.container[eventName].shake.fade; // boolean
 
-        this.__intensity = this.__intensity * 25; // changes it from a 0.0 to 0.1 scale to an actual pixel offset value
+        this.__intensity = this.__intensity * 8; // changes it from a 0.0 to 0.1 scale to an actual pixel offset value
 
-        // this determines the axis of shake effect. If the effect is only in X or only in Y, it will normalize to a simple linear shake. 
-        // however if both are in play, it will create a randomized (normalized) vector allowing the shake effect to operate along that vector.
-        let shakeX = 0;
-        let shakeY = 0;
-        if( this.xAxis === true ) {
-            shakeX = Math.random() - 0.5;
+        // this determines the axis of shake effect. 
+        if( this.gameSession.juiceSettings.container[eventName].shake.inheritVelocity === true) {
+            this.__shakeVector = this.gameSession.p5.createVector(triggerObject.velocity.x, triggerObject.velocity.y);
         }
-        if( this.yAxis === true ) {
-            shakeY = Math.random() - 0.5;
-        }
-        this.__shakeVector = this.gameSession.p5.createVector(shakeX,shakeY);
+        else {
+            //create a random vector
+            let shakeX = 0;
+            let shakeY = 0;
+            if( this.xAxis === true ) {
+                shakeX = Math.random() - 0.5;
+            }
+            if( this.yAxis === true ) {
+                shakeY = Math.random() - 0.5;
+            }
+             this.__shakeVector = this.gameSession.p5.createVector(shakeX,shakeY);         
+       }
         this.shakeVector.normalize(); 
+
 
         this.__startTime = this.gameSession.timeManager.unscaledTime;
         this.__currentIntensity = this.__intensity;
@@ -68,7 +74,9 @@ export default class ScreenShakeEffector {
     update(){
 
             // screen shake can either just end, or fade out (fading out amplitude). Fading usually looks better.
-            this.shakeFader();
+            if( this.fade === true ) {
+                this.shakeFader();
+            }
 
             let tickExpired = false;
 
@@ -83,9 +91,9 @@ export default class ScreenShakeEffector {
             // it fires every frame
             if( tickExpired === true || this.form === "sine") {
                 let offset;
-                offset = this.computeShake();
+                offset = this.computeShake(); // returns a float, 
 
-                offset = offset * this.currentIntensity; // apply fader
+                offset = offset * this.currentIntensity; // apply fader (1.0 to 0.0 multiplier)
 
                 // unfortunately static function calls don't work in this app...
                 let tempVec = this.gameSession.p5.createVector(this.shakeVector.x, this.shakeVector.y);
@@ -107,14 +115,14 @@ export default class ScreenShakeEffector {
             case "sine":
                 return this.sineShake();
                 break;
-            case "random":
-                return this.randomShake();
-                break;
             case "noise":
                 return this.noiseShake();
                 break;
+            case "simple":
+                return this.simpleShake();
+                break;
             default:
-                return this.randomShake();
+                return this.sineShake();
         }
 
     }
@@ -144,29 +152,29 @@ export default class ScreenShakeEffector {
 
         // get sin() of radian
         let offsetValue;
-        offsetValue = this.gameSession.p5.sin(angle) * this.intensity; // * this.currentIntensity;
+        offsetValue = this.gameSession.p5.sin(angle) * this.intensity;
 
         return offsetValue;
-    }
-
-    randomShake () {
-
-        let range = this.intensity; // scale intensity to a nice value for random shake
-            
-        return this.gameSession.p5.random(-range, range); // remember this is just a vector scalar
     }
 
     noiseShake() {
         // use p5's built in function to return Perlin noise
-        // uses time function to animate the noise
-        let timeStamp = (this.gameSession.timeManager.time - this.startTime) //* 1000; //milliseconds since effect started
-        //timeStamp = timeStamp * this.frequency;
 
-        let offsetValue = (this.gameSession.p5.noise(timeStamp) - 0.5) * this.currentIntensity; 
+        let offsetValue = (this.gameSession.p5.noise(this.ticks) * this.intensity); 
 
         return offsetValue;
  
     }   
+
+    simpleShake() {
+
+        if( Math.random() > 0.5 ) {
+            return this.intensity;
+        }
+        else {
+            return this.intensity * -1;
+        }
+    }
 
     get gameSession(){
         return this.__gameSession;

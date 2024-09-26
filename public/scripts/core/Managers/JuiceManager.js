@@ -30,7 +30,6 @@ export default class JuiceManager extends Manager {
         this.bulletHitShakeToggleX.addEventListener("change", this.bulletHitShakeToggleFunctionX);
         this.bulletHitShakeToggleX.gameSession = this.gameSession;
         
-        // TODO: broken for completely unknown reason
         this.__bulletHitShakeToggleYaxis = document.getElementById("bulletVerticalShake");
         this.bulletHitShakeToggleYaxis.addEventListener("change", this.bulletHitShakeToggleFunctionYaxis);
         this.bulletHitShakeToggleYaxis.gameSession = this.gameSession;
@@ -39,13 +38,23 @@ export default class JuiceManager extends Manager {
         this.bulletHitShakeFrequency.addEventListener("change", this.bulletHitShakeFrequencyFunction);
         this.bulletHitShakeFrequency.gameSession = this.gameSession;
 
-        this.__bulletHitShakeIntensity = document.getElementById("bulletHitShakeIntensity");
-        this.bulletHitShakeIntensity.addEventListener("change", this.bulletHitShakeIntensityFunction);
-        this.bulletHitShakeIntensity.gameSession = this.gameSession;
+        this.__bulletHitShakeAmplitude = document.getElementById("bulletHitShakeAmplitude");
+        this.bulletHitShakeAmplitude.addEventListener("change", this.bulletHitShakeAmplitudeFunction);
+        this.bulletHitShakeAmplitude.gameSession = this.gameSession;
 
         this.__bulletHitShakeDuration = document.getElementById("bulletHitShakeDuration");
         this.bulletHitShakeDuration.addEventListener("change", this.bulletHitShakeDurationFunction);
         this.bulletHitShakeDuration.gameSession = this.gameSession;
+
+        this.__bulletHitShakeInheritVelocity = document.getElementById("bulletHitShakeInheritVelocity");
+        this.bulletHitShakeInheritVelocity.addEventListener("change", this.bulletHitShakeInheritToggleFunction);
+        this.bulletHitShakeInheritVelocity.gameSession = this.gameSession;
+
+        this.__bulletHitShakeFader = document.getElementById("bulletHitShakeFader");
+        this.bulletHitShakeFader.addEventListener("change", this.bulletHitShakeFaderToggleFunction);
+        this.bulletHitShakeFader.gameSession = this.gameSession;
+
+
 
         this.__bulletHitFlashColor = document.getElementById("bulletHitFlashColor");
         this.bulletHitFlashColor.addEventListener("change", this.bulletHitFlashColorFunction);
@@ -88,9 +97,9 @@ export default class JuiceManager extends Manager {
         this.deathShakeType.addEventListener("change", this.deathShakeTypeFunction);
         this.deathShakeType.gameSession = this.gameSession;
 
-        this.__deathShakeIntensity = document.getElementById("deathShakeIntensity");
-        this.deathShakeIntensity.addEventListener("change", this.deathShakeIntensityFunction);
-        this.deathShakeIntensity.gameSession = this.gameSession;
+        this.__deathShakeAmplitude = document.getElementById("deathShakeAmplitude");
+        this.deathShakeAmplitude.addEventListener("change", this.deathShakeAmplitudeFunction);
+        this.deathShakeAmplitude.gameSession = this.gameSession;
 
         this.__deathShakeDuration = document.getElementById("deathShakeDuration");
         this.deathShakeDuration.addEventListener("change", this.deathShakeDurationFunction);
@@ -130,15 +139,28 @@ export default class JuiceManager extends Manager {
         this.gameSession.juiceSettings.updateJuice("bulletHit","shake","frequency",range);       
     }
 
-    bulletHitShakeIntensityFunction() {
+    bulletHitShakeAmplitudeFunction() {
         let range = this.value * .01;  // convert to a float between 0 and 1
-        this.gameSession.juiceSettings.updateJuice("bulletHit","shake","intensity",range);
+        this.gameSession.juiceSettings.updateJuice("bulletHit","shake","amplitude",range);
      }
 
      bulletHitShakeDurationFunction() {
         let range = this.value * .01;  // convert to a float between 0 and 1
         this.gameSession.juiceSettings.updateJuice("bulletHit","shake","duration",range);
      }
+
+    bulletHitShakeInheritToggleFunction() {
+        let inputStatus = this.checked;
+        this.gameSession.juiceSettings.updateJuice("bulletHit","shake","inheritVelocity",inputStatus);
+     }
+
+    bulletHitShakeFaderToggleFunction() {
+        let inputStatus = this.checked;
+        this.gameSession.juiceSettings.updateJuice("bulletHit","shake","fade",inputStatus);
+     }
+
+
+
      bulletHitFlashColorFunction() {
         let selected = this.value;
         if( selected === "none" ) {
@@ -166,9 +188,9 @@ export default class JuiceManager extends Manager {
         }
      }
 
-     deathShakeIntensityFunction() {
+     deathShakeAmplitudeFunction() {
         let range = this.value * .01;  // convert to a float between 0 and 1
-        this.gameSession.juiceSettings.updateJuice("destroyShip","shake","intensity",range);
+        this.gameSession.juiceSettings.updateJuice("destroyShip","shake","amplitude",range);
      }
 
      deathShakeDurationFunction() {
@@ -277,6 +299,14 @@ export default class JuiceManager extends Manager {
         return this.__bulletHitShakeDuration;
     }
 
+    get bulletHitShakeInheritVelocity() {
+        return this.__bulletHitShakeInheritVelocity;
+    }    
+
+    get bulletHitShakeFader() {
+        return this.__bulletHitShakeFader;
+    }
+
     get deathShakeToggle() {
         return this.__deathShakeToggle;
     }
@@ -285,8 +315,8 @@ export default class JuiceManager extends Manager {
         return this.__deathShakeType;
     }
 
-    get deathShakeIntensity() {
-        return this.__deathShakeIntensity;
+    get deathShakeAmplitude() {
+        return this.__deathShakeAmplitude;
     }
 
     get deathShakeDuration() {
@@ -301,8 +331,8 @@ export default class JuiceManager extends Manager {
         return this.__bulletHitShakeType;
     }
 
-    get bulletHitShakeIntensity() {
-        return this.__bulletHitShakeIntensity;
+    get bulletHitShakeAmplitude() {
+        return this.__bulletHitShakeAmplitude;
     }
 
     get bulletHitFlashColor() {

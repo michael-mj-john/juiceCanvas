@@ -81,8 +81,6 @@ export default class JuiceEventManager extends Manager {
 	//interface is string, object. String is required, object is optional
 	addNew(eventName, triggerObject) {
 
-		console.log("shake semaphore: ", this.shakeSemaphore);
-
         // ensure that this event exists
         if( eventName in this.gameSession.juiceSettings.container) {
             // a given event may have more than one effect/system. Iterate through each
@@ -116,8 +114,7 @@ export default class JuiceEventManager extends Manager {
 			case "shake":
 				// only one screen shake effect can be active at a time, and they do not interrupt
 //				this.shakeSemaphore = true;
-				console.log("running screen shake");
-				return new ScreenShakeEffector(eventName);					
+				return new ScreenShakeEffector(eventName, triggerObject);					
 				break;
 			case "colorFlash":
 				return new ColorFlashEffector(eventName);
