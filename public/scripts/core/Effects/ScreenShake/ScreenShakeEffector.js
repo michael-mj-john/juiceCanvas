@@ -9,17 +9,13 @@ ScreenShakeEffector
 
     Formula and parameters are set up in constructor. 
 
-    last modified by MJ 6/4/22
-
-    TODO: Separating frequency from amplitude would be nice. 
+    last modified by MJ 9/25/24
 
 */
 
 import GameSession from "../../GameSession.js";
 
 export default class ScreenShakeEffector {
-
-/* NEED TO COMPLETELY REWRITE THIS. SELECT A VECTOR, THEN DO THE EFFECT AS AMPLITUDE (POSITIVE OR NEGATIVE) ALONG THAT VECTOR. ALLOWS FOR MUCH MORE INTERESTING FX */
 
     constructor(eventName) {
         this.__gameSession = new GameSession();
@@ -31,10 +27,10 @@ export default class ScreenShakeEffector {
         this.__frequency = this.gameSession.juiceSettings.container[eventName].shake.frequency // cycles/second
         this.__intensity = this.gameSession.juiceSettings.container[eventName].shake.intensity; // float 0.0 - 1.0
         this.__duration = this.gameSession.juiceSettings.container[eventName].shake.duration * 1000; //convert to milliseconds
-        this.__form = this.gameSession.juiceSettings.container[eventName].shake.form; // string
+        this.__form = this.gameSession.juiceSettings.container[eventName].shake.form; // string, e.g. "sine" or "noise"
         this.__fade = this.gameSession.juiceSettings.container[eventName].shake.fade; // string, typically "linear" or "exponential"
 
-        this.__intensity = this.__intensity * 50; // changes it from a 0.0 to 0.1 scale to an actual pixel offset value
+        this.__intensity = this.__intensity * 25; // changes it from a 0.0 to 0.1 scale to an actual pixel offset value
 
         // this determines the axis of shake effect. If the effect is only in X or only in Y, it will normalize to a simple linear shake. 
         // however if both are in play, it will create a randomized (normalized) vector allowing the shake effect to operate along that vector.
@@ -47,16 +43,21 @@ export default class ScreenShakeEffector {
             shakeY = Math.random() - 0.5;
         }
         this.__shakeVector = this.gameSession.p5.createVector(shakeX,shakeY);
-        this.shakeVector.normalize(); // might be redundant
+        this.shakeVector.normalize(); 
 
         this.__startTime = this.gameSession.timeManager.unscaledTime;
-        this.__timeScaler = this.frequency; // INCOMPLETE. NEED TO CONCENTRATE DAMMIT
         this.__currentIntensity = this.__intensity;
+        
+        this.__msPerTick = 1000 / this.frequency;
+        this.__totalTicks = this.duration / this.msPerTick;
+        this.__ticks = 0; // used to produce a linear sequence for noise function
+        this.__lastTickTime = 0; // time flag for prior tick to calculate next
 
     }
 
     finished(){
-        if( (this.gameSession.timeManager.unscaledTime - this.startTime) >= this.duration) {
+
+        if( this.ticks > this.__totalTicks ) {
             return "screenShake";
         }
         else {
@@ -69,20 +70,29 @@ export default class ScreenShakeEffector {
             // screen shake can either just end, or fade out (fading out amplitude). Fading usually looks better.
             this.shakeFader();
 
-            let offset;
+            let tickExpired = false;
 
-            offset = this.computeShake();
+            // compute ticks here, based on defined frequency (msPerTick is based on frequency)
+            if( this.gameSession.timeManager.time > this.lastTickTime + this.msPerTick ) {
+                this.ticks += 1;
+                this.__lastTickTime = this.gameSession.timeManager.time;
+                tickExpired = true;
+            }
 
-            console.log("offset value: ", offset);
-            console.log("translation vector x",this.shakeVector.x);
+            // noise and random functions fire only on expiration of frequency. Because sin() is continuous,
+            // it fires every frame
+            if( tickExpired === true || this.form === "sine") {
+                let offset;
+                offset = this.computeShake();
 
-            // unfortunately static function calls don't work in this app...
-            let tempVec = this.gameSession.p5.createVector(this.shakeVector.x, this.shakeVector.y);
-            console.log("temp Vec x", tempVec.x);
-            tempVec.setMag(offset);
-            console.log("scaled temp Vec x", tempVec.x)
-            this.gameSession.p5.translate(tempVec.x, tempVec.y);
-            
+                offset = offset * this.currentIntensity; // apply fader
+
+                // unfortunately static function calls don't work in this app...
+                let tempVec = this.gameSession.p5.createVector(this.shakeVector.x, this.shakeVector.y);
+                tempVec.setMag(offset);
+                this.gameSession.p5.translate(tempVec.x, tempVec.y);
+            }
+
     }
 
     //empty render function intentionally
@@ -113,16 +123,12 @@ export default class ScreenShakeEffector {
         
         // linear fade reduces amplitude in linear fashion over time
         if( this.fade === "linear" ) {
-            let proportion = 1 - ((this.gameSession.timeManager.time - this.startTime ) / this.duration);
-            this.currentIntensity = this.intensity * proportion;            
+            this.currentIntensity = 1 - (this.ticks / this.__totalTicks); // produces a value from 1.0 fading to 0.0            
         }
 
         // exponential currently uses power of 4 for the formula (Math.pow(timeElapsed, 4))
         if( this.fade === "exponential" ) { 
-            let timeElapsed = (this.gameSession.timeManager.time - this.startTime) / this.duration;
-            let proportion = timeElapsed * timeElapsed;
-            proportion = Math.pow(timeElapsed, 4);
-            this.currentIntensity *=  1 - proportion;
+            this.currentIntensity = 1 - Math.pow(this.ticks / this.__totalTicks, 2);
         }
 
     }
@@ -130,32 +136,36 @@ export default class ScreenShakeEffector {
     // uses a sin function to generate magnitudes to be applied to the shake vector
     sineShake() {
 
+        // identify current fraction of a single wave cycle
+        let currentFraction = (this.gameSession.timeManager.time - this.lastTickTime) / this.msPerTick;
+
+        // turn that fraction into radians
+        let angle = 2 * Math.PI * currentFraction;
+
+        // get sin() of radian
         let offsetValue;
-        let angle = 2 * Math.PI;
-        let timeStamp = (this.gameSession.timeManager.time - this.startTime) //* 1000; //milliseconds since effect started
-        timeStamp = timeStamp * this.frequency;
-
-        let position = this.gameSession.p5.radians(timeStamp);
-
-        offsetValue = this.gameSession.p5.sin(position) * this.currentIntensity;
+        offsetValue = this.gameSession.p5.sin(angle) * this.intensity; // * this.currentIntensity;
 
         return offsetValue;
     }
 
     randomShake () {
-        
-        // frequency is once per frame
-        // let freq = 60 / 
 
-        // only allow random or noise to fire if frequency has expired
-
-        return this.gameSession.p5.random(-this.intensity * this.intensityMultiplier, this.intensity * this.intensityMultiplier) * this.currentIntensity;
+        let range = this.intensity; // scale intensity to a nice value for random shake
+            
+        return this.gameSession.p5.random(-range, range); // remember this is just a vector scalar
     }
 
     noiseShake() {
         // use p5's built in function to return Perlin noise
         // uses time function to animate the noise
-        return this.gameSession.p5.noise(this.gameSession.timeManager.time) * this.currentIntensity * this.intensityMultiplier;
+        let timeStamp = (this.gameSession.timeManager.time - this.startTime) //* 1000; //milliseconds since effect started
+        //timeStamp = timeStamp * this.frequency;
+
+        let offsetValue = (this.gameSession.p5.noise(timeStamp) - 0.5) * this.currentIntensity; 
+
+        return offsetValue;
+ 
     }   
 
     get gameSession(){
@@ -216,6 +226,26 @@ export default class ScreenShakeEffector {
 
     set currentIntensity(currentIntensity){
         this.__currentIntensity = currentIntensity;
+    }
+
+    get msPerTick() {
+        return this.__msPerTick;
+    }
+
+    get ticks() {
+        return this.__ticks;
+    }
+
+    set ticks(ticks) {
+        this.__ticks = ticks;
+    }
+
+    get lastTickTime() {
+        return this.__lastTickTime;
+    }
+
+    set lastTickTime(lastTickTime) {
+        this.__lastTickTime = lastTickTime;
     }
 
     get xAxis() {

@@ -126,7 +126,7 @@ export default class JuiceManager extends Manager {
 
     bulletHitShakeFrequencyFunction() {
         let range = this.value * .01;  // convert to a float between 0 and 1
-        range = range * 9; // 9 is the max frequency before artifacts happen
+        range = range * 60; // convert to cycles/sec where 60 is maximum
         this.gameSession.juiceSettings.updateJuice("bulletHit","shake","frequency",range);       
     }
 
